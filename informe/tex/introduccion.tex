@@ -1,1 +1,28 @@
 \section{Introducción}
+
+Es el año 95 DG. La Nación del Fuego sigue su ataque, esta vez hacia la Tribu del Agua,
+luego de una humillante derrota a manos del Reino de la Tierra, gracias a nuestra ayuda.
+La tribu debe defenderse del ataque.
+
+El maestro Pakku ha recomendado hacer lo siguiente: Separar a todos los Maestros Agua en 
+$k$ grupos $(S_{1},S_{2},\cdots,S_{k}$. Primero atacará el primer grupo. A medida que el primer
+grupo se vaya cansando entrará el segundo grupo. Luego entrará el tercero, y de esta manera
+se busca generar un ataque constante, que sumado a la ventaja del agua por sobre el fuego,
+buscará lograr la victoria.
+
+En función de esto, lo más conveniente es que los grupos estén parejos para que, justamente,
+ese ataque se mantenga constante.
+
+Conocemos la fuerza/maestría/habilidad de cada uno de los maestros agua, la cual podemos
+cuantificar diciendo que para el maestro $i$ ese valor es $x_{i}$, y tenemos todos los
+valores $x_{1},x_{2},\cdots,x_{n}$ (todos valores positivos).
+
+Para que los grupos estén parejos, lo que buscaremos es minimizar la adición de los cuadrados
+de las sumas de las fuerzas de los grupos. Es decir:
+
+\[
+\min\sum_{i=1}^{k}\left( \sum_{x_{j}\in S_{i}}^{}x_{j} \right)^{2}
+\]
+ 
+El Maestro Pakku nos dice que esta es una tarea difícil, pero que con tiempo y paciencia podemos
+obtener el resultado ideal.
