@@ -1,0 +1,48 @@
+# Compiled PDF
+#*.pdf
+
+# Auxiliary files
+*.aux
+*.bbl
+*.blg
+*.brf
+*.idx
+*.ind
+*.ilg
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+*.spl
+*.dvi
+*.ps
+*.gz
+*.xdv
+*.tpm
+
+# Editor-specific
+.vscode/
+
+# Backup files
+*~
+*.bak
+
+# Build directory (if applicable)
+build/
+
+# __pycache__
+*.pyc
+
+# cosas del latex agregados por hugo 
+*.run.xml
+*.bcf
+*.atfi
+*.bbl-SAVE-ERROR
+*.bcf-SAVE-ERROR
