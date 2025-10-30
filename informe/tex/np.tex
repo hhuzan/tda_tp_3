@@ -1,4 +1,19 @@
 \section{El Problema es NP}
-Se mostrará que el problema pertenece a la clase \textbf{NP} presentando
-un \textit{Certificador Eficiente} que puede validar un \textit{certificado} en
-tiempo polinomial.
+Se mostrará que el problema pertenece a la clase de complejidad \textbf{NP}
+presentando un \textit{Certificador Eficiente} que puede validar un
+\textit{certificado} en tiempo polinomial.
+
+\subsection*{Certificado.}
+Un vector $C=(S_{1},\cdots,S_{k})$ siendo cada $S_{j}$ un vector de índices
+que indica que $x_{i}$ pertenecen a cada grupo.
+\subsection{Algoritmo}
+El certificador debe verificar:
+\begin{itemize}
+    \item Que la cantidad de vectores $S_{j}$ sea $K$
+    \item Que cada $x_{i}$ pertenezca a algún vector $S_{j}$
+    \item Que cada $x_{i}$ aparezca una sola vez.
+    \item Que la suma de los cuadrados de las sumas de los elementos de cada
+    $S_{j}$ sea menor o igual a $B$.
+\end{itemize}
+
+\textcolor{red}{TODO: Mostrar que es polinómico}
