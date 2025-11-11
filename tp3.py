@@ -7,16 +7,16 @@ def leer_archivo(ruta):
     k = int(lineas[1])
     elementos = []
     for linea in lineas[2:]:
-        nombre, valor = linea.split(",")
-        elementos.append((nombre.strip(), float(valor.strip())))
+        nombre, habilidad = linea.split(",")
+        elementos.append((nombre.strip(), float(habilidad.strip())))
     return k, elementos
 
 
 def main():
     k, elementos = leer_archivo("datos/5_2.txt")
-    nombres, valores = zip(*elementos)
+    nombres, habilidades = zip(*elementos)
 
-    menor_suma, particion = resolver(k, valores)
+    menor_suma, particion = resolver(k, habilidades)
 
     print(f"Mejor suma = {menor_suma}")
     for i, grupo in enumerate(particion, 1):
