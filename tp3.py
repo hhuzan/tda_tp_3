@@ -1,4 +1,5 @@
 from backtracking import resolver
+import time
 
 
 def leer_archivo(ruta):
@@ -13,11 +14,13 @@ def leer_archivo(ruta):
 
 
 def main():
-    k, elementos = leer_archivo("datos/5_2.txt")
+    k, elementos = leer_archivo("datos/17_5.txt")
     nombres, habilidades = zip(*elementos)
 
-    menor_suma, particion = resolver(k, habilidades)
+    inicio = time.time()
 
+    menor_suma, particion = resolver(k, habilidades)
+    print(f"tiempo: {time.time()-inicio} seg")
     print(f"Mejor suma = {menor_suma}")
     for i, grupo in enumerate(particion, 1):
         lista_nombres = [nombres[j] for j in grupo]
