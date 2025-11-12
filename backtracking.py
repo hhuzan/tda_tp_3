@@ -20,9 +20,10 @@ def backtracking(i, habilidades, k, sumas, particion, mejor_valor, mejor_partici
 
     valor, indice = habilidades[i]
 
-    orden = sorted(range(k), key=lambda x: sumas[x])
+    # orden = sorted(range(k), key=lambda x: sumas[x])
     ya_uso_vacio = False  # para evitar permutaciones de los conjuntos
-    for g in orden:
+    # for g in orden:
+    for g in range(k):
         if sumas[g] == 0:
             if ya_uso_vacio:
                 continue
@@ -40,16 +41,14 @@ def backtracking(i, habilidades, k, sumas, particion, mejor_valor, mejor_partici
     return mejor_valor, mejor_particion
 
 
-def resolver(k, habilidades):
+def resolver(k, habilidades, ordenar=True):
+
+    tuplas = sorted([(v, i)
+                     for i, v in enumerate(habilidades)], reverse=True) if ordenar else [(v, i) for i, v in enumerate(habilidades)]
+
+    mejor_valor, mejor_particion = math.inf, None
 
     sumas = [0] * k
     particion = [[] for _ in range(k)]
 
-    ordenadas = sorted(
-        [(v, i) for i, v in enumerate(habilidades)], reverse=True)
-
-    mejor_valor = math.inf
-    mejor_particion = None
-
-    return backtracking(
-        0, ordenadas, k, sumas, particion, mejor_valor, mejor_particion)
+    return backtracking(0, tuplas, k, sumas, particion, mejor_valor, mejor_particion)
