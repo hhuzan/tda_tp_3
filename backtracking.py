@@ -20,9 +20,7 @@ def backtracking(i, habilidades, k, sumas, particion, mejor_valor, mejor_partici
 
     valor, indice = habilidades[i]
 
-    # orden = sorted(range(k), key=lambda x: sumas[x])
     ya_uso_vacio = False  # para evitar permutaciones de los conjuntos
-    # for g in orden:
     for g in range(k):
         if sumas[g] == 0:
             if ya_uso_vacio:

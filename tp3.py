@@ -1,4 +1,5 @@
 from backtracking import resolver
+from greedy_pakku import greedy_pakku
 import time
 
 
@@ -14,12 +15,24 @@ def leer_archivo(ruta):
 
 
 def main():
-    k, elementos = leer_archivo("datos/17_5.txt")
+    k, elementos = leer_archivo("datos/15_4.txt")
     nombres, habilidades = zip(*elementos)
 
     inicio = time.time()
-
     menor_suma, particion = resolver(k, habilidades)
+    print("Backtraking")
+    print(f"tiempo: {time.time()-inicio} seg")
+    print(f"Mejor suma = {menor_suma}")
+    for i, grupo in enumerate(particion, 1):
+        lista_nombres = [nombres[j] for j in grupo]
+        print(f"Grupo {i}: {lista_nombres}")
+
+    print()
+    print()
+
+    inicio = time.time()
+    menor_suma, particion = greedy_pakku(k, habilidades)
+    print("Greedy Pakku")
     print(f"tiempo: {time.time()-inicio} seg")
     print(f"Mejor suma = {menor_suma}")
     for i, grupo in enumerate(particion, 1):
