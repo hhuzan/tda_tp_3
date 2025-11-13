@@ -1,0 +1,173 @@
+\section{El problema es NP-Completo}
+
+Habiendo demostrado que el problema pertenece a NP, vamos a demostrar que el Problema de la Tribu del Agua es NP-Completo mediante una reducción desde el problema Subset Sum, que es un problema NP-Completo.
+
+\subsection*{Problema de decisión de la Tribu del Agua}
+
+Dado un conjunto de $n$ valores positivos $x_1, x_2, \dots, x_n$ que representan
+las habilidades de los maestros agua, un número entero $k$ y un valor entero $B$,
+el problema de decisión de la Tribu del Agua pregunta:
+
+\begin{center}
+\emph{¿Existe una partición de los $n$ elementos en $k$ grupos disjuntos
+$S_1, S_2, \dots, S_k$ tal que}
+\[
+\sum_{i=1}^{k} \left( \sum_{x_j \in S_i} x_j \right)^2 \le B?
+\]
+\end{center}
+
+Cada elemento $x_i$ debe pertenecer a exactamente un grupo.
+
+\bigskip
+
+\subsection*{Reducción desde Subset Sum al Problema de la Tribu del Agua}
+
+Una instancia de Subset Sum está dada por un conjunto de números positivos
+$A = \{a_1, a_2, \dots, a_n\}$ y una suma objetivo $T$.
+
+El problema de decisión pregunta si existe un subconjunto $A' \subseteq A$
+cuyos elementos sumen exactamente $T$.
+
+\subsubsection*{Elección de los parámetros de la nueva instancia}
+
+\begin{itemize}
+
+    \item \textbf{Valores $x_i$:}
+    Tomamos los mismos valores que en Subset Sum:
+    \[
+    x_i = a_i \quad \text{para todo } i.
+    \]
+
+    \item \textbf{Número de grupos $k$:}
+    Elegimos $k = 2$ porque Subset Sum consiste justamente en separar los elementos en dos subconjuntos: uno que suma $T$ y el otro que suma lo que queda.
+
+    \item \textbf{La suma total $S$:}
+    Definimos
+    \[
+    S = \sum_{i=1}^n a_i.
+    \]
+    Si un subconjunto suma $T$, su complemento suma necesariamente $S - T$.
+
+    \item \textbf{Construcción del parámetro $B$:}
+
+    En el Problema de la Tribu del Agua, la condición a satisfacer es:
+    \[
+    \sum_{i=1}^{k}
+    \left( \sum_{x_j \in S_i} x_j \right)^2 \le B.
+    \]
+
+    Como fijamos $k = 2$, esto se convierte en:
+    \[
+    \left( \sum_{x_j \in S_1} x_j \right)^2
+    +
+    \left( \sum_{x_j \in S_2} x_j \right)^2
+    \le B.
+    \]
+
+    Si llamamos $x$ a la suma del primer grupo, entonces la del segundo es $S - x$. La expresión depende únicamente de $x$:
+    \[
+    x^2 + (S - x)^2.
+    \]
+
+    Para garantizar que una partición sea aceptada únicamente cuando uno de los grupos suma exactamente $T$, definimos:
+    \[
+    B = T^2 + (S - T)^2.
+    \]
+
+    Este valor es el mínimo posible de toda la expresión. Cualquier partición donde la suma de un grupo sea distinta de $T$ produce un valor estrictamente mayor, por lo que no puede satisfacer la desigualdad.
+
+\end{itemize}
+
+Con esta construcción, la pregunta del Problema de la Tribu del Agua queda:
+\[
+\text{¿Existe una partición }(S_1, S_2)\text{ tal que }
+(\sum_{x_j \in S_1} x_j)^2 + (\sum_{x_j \in S_2} x_j)^2 \le B?
+\]
+
+\subsubsection*{Demostración de la reducción}
+
+Debemos demostrar que:
+\[
+\text{Hay solución de Subset Sum}
+\;\Longleftrightarrow\;
+\text{Hay solución de la Tribu del Agua con $k=2$}.
+\]
+
+\paragraph{Ida $\,\Rightarrow$}\mbox{}\\
+Si hay solución del problema Subset Sum, entonces hay solución del Problema de la Tribu del Agua.
+
+Si existe un subconjunto $A' \subseteq A$ tal que:
+\[
+\sum_{a_i \in A'} a_i = T,
+\]
+
+En nuestra reducción fijamos $k = 2$. Esto implica que cualquier solución del Problema de la Tribu del Agua debe consistir en dividir los elementos en dos grupos. Por lo tanto, podemos usar el subconjunto solución de Subset Sum para formar uno de los grupos, y su complemento para formar el otro:
+\[
+S_1 = A', \qquad S_2 = A \setminus A'.
+\]
+
+En esta partición, las sumas de los grupos son:
+\[
+\sum_{x_j \in S_1} x_j = T,
+\qquad
+\sum_{x_j \in S_2} x_j = S - T,
+\]
+donde $S = \sum_{i=1}^n a_i$.
+
+Dado que el Problema de la Tribu del Agua con $k = 2$ evalúa:
+\[
+\left( \sum_{x_j \in S_1} x_j \right)^2
++
+\left( \sum_{x_j \in S_2} x_j \right)^2,
+\]
+sustituimos las sumas obtenidas:
+\[
+T^2 + (S - T)^2.
+\]
+
+Y en la construcción de la instancia definimos:
+\[
+B = T^2 + (S - T)^2.
+\]
+
+Esto significa que esta partición satisface la desigualdad:
+\[
+(\sum S_1)^2 + (\sum S_2)^2 = B.
+\]
+
+Por lo tanto, la partición $(S_1, S_2)$ cumple la condición del Problema de la Tribu del Agua:
+\[
+(\sum S_1)^2 + (\sum S_2)^2 \le B.
+\]
+
+Entonces, si existe una solución de Subset Sum, existe una solución para la instancia construida del Problema de la Tribu del Agua con $k=2$.
+
+\paragraph{Vuelta $\,\Leftarrow$}\mbox{}\\
+Si hay solución del Problema de la Tribu del Agua, entonces hay solución de Subset Sum.
+
+Si hay solución del Problema de la Tribu del Agua, entonces existe una partición $(S_1, S_2)$ con $k = 2$ tal que:
+\[
+(\sum_{x_j \in S_1} x_j)^2 + (\sum_{x_j \in S_2} x_j)^2 \le B,
+\]
+recordemos que:
+\[
+B = T^2 + (S - T)^2.
+\]
+
+Al partir los elementos en dos grupos, si uno suma $x$, el otro suma $S - x$.
+La expresión total depende sólo de $x$:
+\[
+x^2 + (S - x)^2.
+\]
+
+Elegimos $B$ justamente como el valor de esta expresión cuando $x = T$, que es el valor mínimo posible.
+Si la partición encontrada cumple la desigualdad, entonces necesariamente debe tener:
+\[
+\sum_{x_j \in S_1} x_j = T.
+\]
+
+Es decir, uno de los grupos suma exactamente $T$, lo cual constituye una solución de Subset Sum.
+
+\paragraph{Conclusión}\mbox{}
+
+Habiendo demostrado que la instancia de Subset Sum tiene solución si y sólo si la instancia construida del Problema de la Tribu del Agua tiene solución, y dado que la reducción es polinomial, concluimos que el \textbf{Problema de la Tribu del Agua es NP-Completo}.
