@@ -1,20 +1,99 @@
-\section{El Problema es NP}
-Se mostrará que el problema pertenece a la clase de complejidad \textbf{NP}
-presentando un \textit{Certificador Eficiente} que puede validar un
+\section{El problema es NP}
+
+Se demostrará que el problema pertenece a la clase de complejidad \textbf{NP},
+presentando un \textit{certificador eficiente} capaz de verificar un
 \textit{certificado} en tiempo polinomial.
 
-\subsection*{Certificado.}
-Un vector $C=(S_{1},\cdots,S_{k})$ siendo cada $S_{j}$ un vector de índices
-que indica que $x_{i}$ pertenecen a cada grupo.
+\subsection*{Certificado}
+Un vector $C = (S_{1}, \ldots, S_{k})$, donde cada $S_{j}$ es un subconjunto
+de índices que indica a qué grupo pertenece cada elemento $x_{i}$.
 
-\subsection*{Algoritmo}
-El certificador debe verificar:
+\subsection*{Algoritmo del certificador}
+El certificador debe verificar las siguientes condiciones:
 \begin{itemize}
-    \item Que la cantidad de vectores $S_{j}$ sea $K$
-    \item Que cada $x_{i}$ pertenezca a algún vector $S_{j}$
-    \item Que cada $x_{i}$ aparezca una sola vez.
+    \item Que la cantidad de subconjuntos $S_{j}$ sea exactamente $k$.
+    \item Que cada elemento $x_{i}$ pertenezca a algún subconjunto $S_{j}$.
+    \item Que ningún elemento $x_{i}$ aparezca en más de un subconjunto.
     \item Que la suma de los cuadrados de las sumas de los elementos de cada
     $S_{j}$ sea menor o igual a $B$.
 \end{itemize}
 
-\textcolor{red}{TODO: Mostrar que es polinómico}
+\noindent
+La implementación del certificador se encuentra en \texttt{certificador.py} \\
+
+\begin{lstlisting}[language=Python, caption={Implementación del certificador}]
+def es_particion_valida(maestros, k, B, particion):
+    if len(particion) != k:
+        return False
+
+    vistos = set()
+    for grupo in particion:
+        for m in grupo:
+            if m in vistos:
+                return False
+            vistos.add(m)
+
+    if len(vistos) != len(maestros):
+        return False
+
+    suma_total = 0
+    for grupo in particion:
+        suma_grupo = 0
+        for maestro in grupo:
+            suma_grupo += maestros[maestro]
+        suma_total += suma_grupo**2
+
+    if suma_total > B:
+        return False
+
+    return True
+\end{lstlisting}
+
+\newpage
+\subsubsection*{Justificación de la complejidad}
+
+Sean:
+\begin{itemize}
+    \item $n$: la cantidad de elementos (maestros) a agrupar,
+    \item $k$: la cantidad de grupos permitidos,
+    \item $B$: el valor máximo permitido para la suma de los cuadrados.
+\end{itemize}
+
+El certificador realiza las siguientes verificaciones:
+\begin{enumerate}
+    \item Que la cantidad de grupos sea exactamente $k$.
+    \item Que ningún elemento se repita en más de un grupo.
+    \item Que todos los elementos estén asignados a algún grupo.
+    \item Que la suma total de los cuadrados de las sumas de cada grupo se calcule correctamente.
+    \item Que el resultado obtenido se compare con el valor límite $B$.
+\end{enumerate}
+
+El análisis de complejidad de cada paso es el siguiente:
+
+\begin{center}
+\begin{tabular}{|c|l|c|}
+\hline
+\textbf{Paso} & \textbf{Descripción} & \textbf{Complejidad} \\
+\hline
+1 & Comparar la cantidad de grupos con $k$ & $O(1)$ \\
+\hline
+2 & Recorrer todos los elementos para verificar repeticiones & $O(n)$ \\
+\hline
+3 & Verificar que no falte ningún elemento & $O(1)$ \\
+\hline
+4 & Calcular la suma total de los cuadrados & $O(n)$ \\
+\hline
+5 & Comparar el resultado con $B$ & $O(1)$ \\
+\hline
+\end{tabular}
+\end{center}
+
+Por lo tanto, la complejidad total del certificador es:
+\[
+O(1) + O(n) + O(1) + O(n) + O(1) = O(n)
+\]
+
+\noindent
+Es decir, el certificador se ejecuta en tiempo lineal con respecto a la cantidad de elementos $n$.
+Dado que la verificación de una solución candidata puede realizarse en tiempo polinomial respecto del tamaño de la entrada,
+el \textbf{Problema de la Tribu del Agua pertenece a la clase NP}.
