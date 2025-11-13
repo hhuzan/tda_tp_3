@@ -1,1 +1,82 @@
 \section{Programación Lineal}
+
+En esta sección se planteará un modelo de Programación Lineal para la resolucion de este problema. 
+Primero se presentará la idea original, basada en una función no lineal con variables binarias, 
+y luego se describirá un modelo lineal que aproxima la solución óptima.
+
+La idea central consiste en introducir una variable binaria $y_{ij}$ que indique si el maestro $j$ pertenece al grupo $i$:
+
+\[
+y_{ij} =
+\begin{cases}
+1 & \text{si el maestro $j$ pertenece al grupo $i$},\\
+0 & \text{en otro caso}.
+\end{cases}
+\]
+
+Con esta definición, la función original a minimizar es:
+
+\[
+\min \sum_{i=1}^{k} \left( \sum_{j=1}^{n} x_j y_{ij} \right)^2.
+\]
+
+Dado que esta expresión no es lineal, se optará por formular un modelo lineal que proporcione una aproximación razonable.
+
+\subsection{Variables}
+
+\begin{itemize}
+    \item $y_{ij} \in \{0,1\}$: indica si el maestro $j$ pertenece al grupo $i$.
+    \item $s_i \in \mathbb{R}$: suma total de fuerzas asignadas al grupo $i$.
+    \item $Z_{\max}, Z_{\min} \in \mathbb{R}$: valores máximo y mínimo, respectivamente, entre todas las sumas $s_i$.
+\end{itemize}
+
+\subsection{Restricciones}
+
+Las restricciones del modelo aseguran la correcta asignación de maestros a grupos y la relación entre $s_i$, $Z_{\max}$ y $Z_{\min}$.
+
+\begin{itemize}
+    \item \textbf{Asignación de maestros:}  
+    Lo principal será limitar a cuántos grupos $i$ puede pertenecer cada maestro $j$. En este caso se busca que cada maestro esté asignado a un solo grupo, por lo tanto tendremos una restricción tal que:
+
+    \[
+    \sum_{i=1}^{k} y_{ij} = 1 \quad \forall j.
+    \]
+
+    Esto garantiza que ningún maestro quede sin asignar ni aparezca en más de un grupo.
+
+    \item \textbf{Definición de las sumas $\mathbf{s_i}$:}  
+    Para cada grupo $i$, la suma de fuerzas es igual a la suma de los valores $x_j$ de los maestros asignados a él:
+
+    \[
+    s_i = \sum_{j=1}^{n} x_j y_{ij} \quad \forall i.
+    \]
+
+    Se sumarán todas las fuerzas de cada maestro $j$ solo si pertenece al grupo $i$ ($y_{ij} = 1$).
+
+    \item \textbf{Relación con $\mathbf{Z_{\max} \text{ y } Z_{\min}}$:} 
+    Para que $Z_{\max}$ y $Z_{\min}$ representen efectivamente el mayor y el menor valor entre los $s_i$, se imponen:
+
+    \[
+    s_i \le Z_{\max} \quad \forall i,
+    \]
+
+    \[
+    s_i \ge Z_{\min} \quad \forall i.
+    \]
+\end{itemize}
+
+
+
+\subsection{Función Objetivo}
+
+La aproximación lineal consiste en minimizar la diferencia entre la suma más grande y la suma más pequeña:
+
+\[
+\min \left( Z_{\max} - Z_{\min} \right).
+\]
+
+Este criterio es razonable porque minimizar la diferencia entre los grupos tiende a equilibrar sus sumas, 
+lo cual aproxima el objetivo original basado en la minimización de los cuadrados.
+
+
+\textcolor{red}{TODO: Agregar implementación en código}
