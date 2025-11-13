@@ -15,21 +15,21 @@
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 \lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
+    backgroundcolor=\color{backcolour},
     commentstyle=\color{codegreen},
     keywordstyle=\color{magenta},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
     basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
     showstringspaces=false,
-    showtabs=false,                  
+    showtabs=false,
     tabsize=2
 }
 \lstset{style=mystyle}
@@ -53,7 +53,7 @@
   \scaleto{%
     \scalerel*[\widthof{\ensuremath{#1}}]{\kern-.6pt\bigwedge\kern-.6pt}%
     {\rule[-\textheight/2]{1ex}{\textheight}}%WIDTH-LIMITED BIG WEDGE
-  }{\textheight}% 
+  }{\textheight}%
 }{0.5ex}}%
 \stackon[1pt]{#1}{\tmpbox}%
 }
@@ -61,7 +61,7 @@
 
 \usepackage{mathtools}      % floor y ceil
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
-\DeclarePairedDelimiter\floor{\lfloor}{\rfloor} 
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
 \usepackage[style=authoryear-comp]{biblatex}
 
@@ -79,6 +79,8 @@
 \justifying{
 \hypertarget{res}{\section*{Resolución}}
 \input{tex/np}
+\newpage
+\input{tex/np_completo}
 \newpage
 \input{tex/backtracking}
 \newpage
