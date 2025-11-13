@@ -21,33 +21,7 @@ El certificador debe verificar las siguientes condiciones:
 \noindent
 La implementación del certificador se encuentra en \texttt{certificador.py} \\
 
-\begin{lstlisting}[language=Python, caption={Implementación del certificador}]
-def es_particion_valida(maestros, k, B, particion):
-    if len(particion) != k:
-        return False
-
-    vistos = set()
-    for grupo in particion:
-        for m in grupo:
-            if m in vistos:
-                return False
-            vistos.add(m)
-
-    if len(vistos) != len(maestros):
-        return False
-
-    suma_total = 0
-    for grupo in particion:
-        suma_grupo = 0
-        for maestro in grupo:
-            suma_grupo += maestros[maestro]
-        suma_total += suma_grupo**2
-
-    if suma_total > B:
-        return False
-
-    return True
-\end{lstlisting}
+\lstinputlisting[language=Python]{../certificador.py}
 
 \newpage
 \subsubsection*{Justificación de la complejidad}
