@@ -1,6 +1,6 @@
 from backtracking import resolver
 from greedy_pakku import greedy_pakku
-from lineal import lineal_pakku
+from lineal_pakku import lineal_pakku
 import time
 
 

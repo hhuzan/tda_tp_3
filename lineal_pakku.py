@@ -18,7 +18,7 @@ def lineal_pakku(k, habilidades):
     for j in range(n):
         modelo += pulp.lpSum(y[i][j] for i in range(k)) == 1
 
-    #Definicion de sumas y zmax y zmin
+    #Definicion de sumas, zmax y zmin
     for i in range(k):
         modelo += s[i] == pulp.lpSum(habilidades[j] * y[i][j] for j in range(n))
         modelo += s[i] <= zmax
