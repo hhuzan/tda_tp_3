@@ -1,5 +1,6 @@
 from backtracking import resolver
 from greedy_pakku import greedy_pakku
+from lineal import lineal_pakku
 import time
 
 
@@ -39,6 +40,17 @@ def main():
         lista_nombres = [nombres[j] for j in grupo]
         print(f"Grupo {i}: {lista_nombres}")
 
+    print()
+    print()
+
+    inicio = time.time()
+    desbalance, particion = lineal_pakku(k, habilidades)
+    print("Lineal Pakku")
+    print(f"tiempo: {time.time()-inicio} seg")
+    print(f"Desbalance = {desbalance}")
+    for i, grupo in enumerate(particion, 1):
+        lista_nombres = [nombres[j] for j in grupo]
+        print(f"Grupo {i}: {lista_nombres}")
 
 if __name__ == "__main__":
     main()
