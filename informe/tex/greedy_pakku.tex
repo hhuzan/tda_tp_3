@@ -1,13 +1,13 @@
 \section{Greedy - Algoritmo de Pakku}
 
-Se implementó el algoritmo propuesto por el maestro Pakku.  
+Se implementó el algoritmo propuesto por el maestro Pakku.
 
 Para determinar el "grupo con menos habilidad hasta ahora", se consideró
 la suma de habilidades del grupo, por corresponder el mínimo de esta
-suma al mínimo del cuadrado de la suma.  
+suma al mínimo del cuadrado de la suma.
 
 
-\subsection{Código Python}  
+\subsection{Código Python}
 
 \lstinputlisting[language=Python]{../greedy_pakku.py}
 
@@ -17,14 +17,14 @@ suma al mínimo del cuadrado de la suma.
 
 
 El algoritmo ordena la lista de habilidades de tamaño $n$,
-con costo $\mathcal{O}(n \log n)$.  
+con costo $\mathcal{O}(n \log n)$.
 
 Luego, para cada uno de los $n$ elementos,
 selecciona el grupo con menor suma actual mediante una
 búsqueda lineal entre los $k$ grupos, lo que cuesta $\mathcal{O}(k)$
-por iteración.  
+por iteración.
 
-El costo total de esta fase es $\mathcal{O}(nk)$.  
+El costo total de esta fase es $\mathcal{O}(nk)$.
 
 Por lo tanto, la complejidad temporal total es
 \[
@@ -49,19 +49,133 @@ S(n,k) = \mathcal{O}(n + k).
 
 
 
-
-
-
-
 \subsection{Calidad de la Aproximación}
 
-\textcolor{red}{TBD}
+El objetivo del problema consiste en particionar los $n$ maestros en $k$ grupos
+$S_1,\dots,S_k$ de forma tal que, si denotamos por $L_j$ a la suma de habilidades
+del grupo $j$, se minimice la función
 
+\[
+f(S_1,\dots,S_k) \;=\; \sum_{j=1}^{k} L_j^2.
+\]
 
+Para una instancia $I$, denotamos por $OPT(I)$ al valor óptimo de esta función y
+por $A(I)$ al valor obtenido por el algoritmo Greedy de Pakku.
 
+\subsubsection*{Cota inferior para el óptimo}
 
+Sea $S = \sum_{i=1}^n x_i$ la suma total de habilidades. Para cualquier
+partición de los maestros en $k$ grupos, se cumple
 
+\[
+\sum_{j=1}^{k} L_j = S.
+\]
 
+Usando que la función $x^2$ es convexa, obtenemos la siguiente cota inferior válida para \emph{toda} partición:
+
+\[
+\sum_{j=1}^{k} L_j^2 \;\ge\; k \left(\frac{1}{k}\sum_{j=1}^{k} L_j\right)^2
+= k \left(\frac{S}{k}\right)^2
+= \frac{S^2}{k}.
+\]
+
+Por lo tanto, para toda instancia $I$ se cumple
+
+\[
+OPT(I) \;\ge\; \frac{S^2}{k}.
+\]
+
+\subsubsection*{Cota superior para el algoritmo Greedy}
+
+Analicemos ahora el comportamiento del algoritmo de Pakku.
+
+\begin{itemize}
+  \item ordena las habilidades de mayor a menor,
+  \item y asigna cada maestro al grupo con menor suma actual.
+\end{itemize}
+
+Sea $p$ la habilidad máxima (es decir, $p = \max_i x_i$). En el momento en que
+se asigna el maestro de habilidad $p$, la suma de habilidades ya asignadas es
+$S - p$, con lo cual la carga promedio de los grupos en ese instante es
+
+\[
+\frac{S - p}{k}.
+\]
+
+Como el algoritmo elige siempre el grupo con menor suma, la carga de ese grupo
+antes de asignar $p$ es, a lo sumo,
+
+\[
+L_{\text{antes}} \;\le\; \frac{S - p}{k}.
+\]
+
+Luego de agregar $p$, la carga de ese grupo queda acotada por
+
+\[
+L_{\text{después}}
+\;\le\;
+\frac{S - p}{k} + p
+= \frac{S}{k} + \left(1 - \frac{1}{k}\right)p.
+\]
+
+En consecuencia, si denotamos por $M_G$ a la carga máxima en la solución Greedy,
+tenemos
+
+\[
+M_G \;\le\; \frac{S}{k} + \left(1 - \frac{1}{k}\right)p.
+\]
+
+Por otro lado, como la suma de las cargas es $S$, podemos acotar el valor de la
+función objetivo de la solución Greedy como
+
+\[
+A(I) = \sum_{j=1}^{k} L_j^2
+\;\le\;
+M_G \sum_{j=1}^{k} L_j
+= M_G \cdot S
+\;\le\;
+\left(\frac{S}{k} + \left(1 - \frac{1}{k}\right)p\right) S.
+\]
+
+\subsubsection*{Factor de aproximación}
+
+Combinando la cota inferior del óptimo con la cota superior del algoritmo, se obtiene
+
+\[
+\frac{A(I)}{OPT(I)}
+\;\le\;
+\frac{\left(\frac{S}{k} + \left(1 - \frac{1}{k}\right)p\right) S}
+     {\frac{S^2}{k}}
+=
+1 + (k-1)\frac{p}{S}.
+\]
+
+Como $p \le S$ (la habilidad máxima no puede exceder la suma total), se tiene
+
+\[
+\frac{p}{S} \le 1
+\quad\Rightarrow\quad
+\frac{A(I)}{OPT(I)} \;\le\; 1 + (k-1) \;=\; k.
+\]
+
+Es decir, el algoritmo de Pakku es un algoritmo de \emph{aproximación $k$-aproximado}:
+para cualquier instancia $I$ con $k$ grupos, el valor de la solución Greedy satisface
+
+\[
+A(I) \;\le\; k \cdot OPT(I).
+\]
+
+Además, la cota más fina
+
+\[
+\frac{A(I)}{OPT(I)} \;\le\; 1 + (k-1)\frac{p}{S}
+\]
+
+muestra que, cuando ningún maestro domina fuertemente la suma total
+(es decir, cuando el cociente $p/S$ es pequeño), el factor de aproximación
+real es mucho más cercano a $1$ que a $k$. En las mediciones experimentales
+presentadas más adelante se observa justamente que, para las instancias
+consideradas, el algoritmo Greedy produce soluciones muy cercanas al óptimo.
 
 
 
@@ -71,13 +185,13 @@ S(n,k) = \mathcal{O}(n + k).
 \subsubsection*{Tiempos de Ejecución - Datasets Grandes}
 Para contrastar la estimación teórica de la complejidad temporal con observaciones
 experimentales, se generaron diversos conjuntos de datos aleatorios de tamaños variables.
-En total se realizaron mediciones para $17*3=51$ conjuntos distintos de habilidades, cada
+En total se realizaron mediciones para $17*5=85$ conjuntos distintos de habilidades, cada
 uno con entre 200 y 1000 elementos.:
 
 \begin{itemize}
-  \item Se generó un conjunto de datos con sets de tamaño variable con entre 200 y 1000 elementos (habilidades).
+  \item Se generó un conjunto de datos con 85 sets de tamaño comprendido entre 200 y 1000 elementos (habilidades).
   \item Cada habilidad con un valor comprendido entre 10 y 1000.
-  \item Se definieron 50 grupos ($k=50$) 
+  \item Se definieron 50 grupos ($k=50$)
   \item Para cada set de ese conjunto de datos, se midió el tiempo de procesamiento.
 \end{itemize}
 
@@ -89,7 +203,7 @@ teórica estimada.
     \includegraphics[width=.8\textwidth]{img/ajuste_greedy_pakku_muchos.png}
 \end{figure}
 
-Se observa que, si bien hay elevada dispersion en los resultados, los valores medidos se ajustan bien
+Se observa que, si bien hay elevada dispersión en los resultados, los valores medidos se ajustan bien
 al estimado teórico $n.log(n)$.
 
 
@@ -112,7 +226,7 @@ al estimado teórico $n.log(n)$.
 
 Nota: si bien los tiempos para el algoritmo Greedy parecen constantes, eso es debido
 al pequeño intervalo considerado y a la gran diferencia de escala con los tiempos de
-Backtraking. Como se vio en gráfico anterior, siguen un orden $n.log(n)$
+Backtraking. Como se vio en gráfico anterior, la solución Greedy tiene un orden $n.log(n)$
 
 \textcolor{red}{TODO: Ampliar}
 
@@ -123,7 +237,7 @@ Backtraking. Como se vio en gráfico anterior, siguen un orden $n.log(n)$
 
 \subsubsection*{Ratio de la Aproximación}
 
-\textcolor{red}{TODO: Agregar contexto}  
+\textcolor{red}{TODO: Agregar contexto}
 
 \begin{figure}[H]
     \centering
