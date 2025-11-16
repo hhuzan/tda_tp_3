@@ -1,6 +1,253 @@
 \section{El problema es NP-Completo}
 
-Habiendo demostrado que el problema pertenece a NP, vamos a demostrar que el Problema de la Tribu del Agua es NP-Completo mediante una reducción desde el problema Subset Sum, que es un problema NP-Completo.
+Habiendo demostrado que el Problema de la Tribu del Agua pertenece a NP, vamos a probar que es NP-Completo mediante una reducción desde el problema Partition.
+
+Primero demostramos que Partition es NP-Completo, usando una reducción desde Subset Sum (que sabemos que es NP-Completo).
+
+\subsection*{Problema de decisión Partition}
+
+Dado un conjunto de enteros positivos
+\[
+A = \{a_1, a_2, \dots, a_n\},
+\]
+queremos saber si es posible dividir ese conjunto en dos subconjuntos disjuntos y que la suma de los elementos de cada subconjunto sea igual.
+
+En otras palabras:
+
+\begin{center}
+\emph{¿Existe una forma de separar los elementos en dos grupos de manera que ambas sumas sean iguales?}
+\end{center}
+
+\subsection*{El problema Partition es NP-Completo}
+
+\subsubsection*{Partition pertenece a NP}
+
+Para verificar una solución, podrían darnos dos subconjuntos, $A'$ y su complemento $A \setminus A'$.
+
+Podemos chequear en tiempo polinomial:
+
+\begin{itemize}
+    \item Que los dos subconjuntos no comparten elementos y juntos contienen a todos.
+    \item Que la suma de los elementos del primer subconjunto es igual a la del segundo.
+\end{itemize}
+
+Hacer estas verificaciones sólo requiere recorrer los elementos y sumar, lo cual lleva tiempo lineal.
+Por eso, Partition pertenece a NP.
+
+
+\subsubsection*{Reducción desde Subset Sum a Partition}
+
+Recordemos el problema Subset Sum:
+
+\begin{itemize}
+    \item \textbf{Instancia}: un conjunto de enteros positivos $A = \{a_1, \dots, a_n\}$ y un entero objetivo $T$.
+    \item \textbf{Pregunta}: ¿existe un subconjunto $A' \subseteq A$ tal que
+    \[
+    \sum_{a_i \in A'} a_i = T \, ?
+    \]
+\end{itemize}
+
+Sabemos que Subset Sum es NP-Completo.
+
+Dada una instancia $(A, T)$ de Subset Sum, construimos una instancia de Partition.
+
+\paragraph{Normalización de la instancia}\mbox{}\\
+
+Sea
+\[
+S = \sum_{i=1}^n a_i.
+\]
+
+Podemos tratar algunos casos en tiempo polinomial:
+
+\begin{itemize}
+    \item Si $T > S$, claramente no puede haber subconjunto que sume $T$. Devolvemos una instancia fija de Partition sin solución.
+    \item Si $T = 0$ o $T = S$, la respuesta de Subset Sum es trivialmente \emph{sí} y podemos devolver una instancia fija de Partition con solución.
+    \item Si $T > S/2$, observamos que existe un subconjunto que suma $T$ si y sólo si existe un subconjunto que suma $S - T$ (su complemento). En ese caso, reemplazamos $T$ por $T' = S - T$ y obtenemos una instancia equivalente.
+\end{itemize}
+
+Luego de este preprocesamiento, podemos suponer que
+\[
+0 < T < \frac{S}{2},
+\]
+lo que implica en particular que $S - 2T > 0$.
+
+\paragraph{Construcción de la nueva instancia}\mbox{}\\
+
+Partimos entonces de una instancia \emph{normalizada} de Subset Sum: un conjunto de números $A = \{a_1, \dots, a_n\}$ y un valor objetivo $T$ con $0 < T < S/2$.
+
+Transformamos esta instancia en una del problema Partition agregando un único número nuevo al conjunto.
+Una partición válida del nuevo conjunto $A'$ debe dar una solución del Subset Sum original.
+Por eso, el número extra que agregamos no puede ser cualquier valor, sino uno que garantice que una partición correcta sólo exista si había un subconjunto que sumaba exactamente $T$.
+
+En Subset Sum buscamos un subconjunto que sume $T$.
+En Partition queremos dividir en dos grupos de igual suma.
+
+Para relacionar ambos problemas, necesitamos que:
+
+\begin{itemize}
+\item uno de los lados de la partición represente al subconjunto que suma $T$,
+\item y el otro lado represente al complemento que suma $S - T$.
+\end{itemize}
+
+Pero en Partition ambas mitades deben sumar lo mismo.
+Entonces necesitamos modificar el conjunto para que:
+
+\[
+T + \text{(algo)} = S - T.
+\]
+
+Ese “algo” es el número que debemos agregar.
+
+\paragraph{Definir el número a agregar}\mbox{}\\
+
+A partir de la ecuación anterior:
+
+\[
+\text{algo} = S - 2T,
+\]
+
+definimos ese número como:
+
+\[
+b = S - 2T.
+\]
+
+Como $0 < T < S/2$, tenemos $S - 2T > 0$, luego $b$ es un entero positivo, consistente con la definición de Partition.
+
+Agregamos $b$ para ajustar la suma del subconjunto $U$ y llevarla al valor necesario para que sea una mitad válida.
+
+\paragraph{Definir el nuevo conjunto $A'$}\mbox{}\\
+
+\[
+A' = A \cup \{b\}.
+\]
+
+Agregamos sólo un número para no alterar demasiado la estructura del conjunto original.
+Esta construcción es claramente polinomial en el tamaño de la instancia (sólo sumamos los elementos y agregamos un valor).
+
+\paragraph{Calcular la nueva suma total $S'$}\mbox{}\\
+
+La suma de $A'$ es:
+
+\[
+S' = S + b.
+\]
+
+Al reemplazar $b$, obtenemos:
+
+\[
+S' = S + (S - 2T) = 2(S - T).
+\]
+
+Esto confirma que la mitad de $S'$ es:
+
+\[
+\frac{S'}{2} = S - T.
+\]
+
+Queremos que si existe un subconjunto $U$ con suma $T$, entonces:
+
+\begin{itemize}
+    \item el complemento $A \setminus U$ suma $S - T$,
+    \item y $U \cup \{b\}$ también suma $S - T$.
+\end{itemize}
+
+De esta manera, la partición construida a partir de una solución de Subset Sum coincide con dos mitades iguales en Partition.
+
+\paragraph{La nueva pregunta de Partition}\mbox{}\\
+
+La pregunta para la instancia transformada es:
+
+\[
+\text{¿Se puede dividir } A' \text{ en dos partes que sumen } \frac{S'}{2} = S - T \text{ cada una?}
+\]
+
+\subsubsection*{Demostración de la reducción}
+
+\paragraph{Ida $\,\Rightarrow$}\mbox{}\\
+
+Si Subset Sum tiene solución, entonces Partition tiene solución.
+
+Si hay solución de Subset Sum, significa que existe un subconjunto $U \subseteq A$ que suma exactamente $T$:
+\[
+\sum_{a_i \in U} a_i = T.
+\]
+
+En la instancia de Partition ya construida, la mitad deseada es $S - T$.
+El complemento $A \setminus U$ ya suma ese valor, así que es directamente uno de los dos grupos de la partición:
+\[
+S_1 = A \setminus U.
+\]
+
+Para formar el otro grupo, tomamos el subconjunto $U$ y le agregamos el número especial $b$ que incorporamos en la construcción.
+Ese número fue elegido de manera tal que:
+\[
+T + b = T + (S - 2T) = S - T.
+\]
+
+Entonces definimos:
+\[
+S_2 = U \cup \{b\}.
+\]
+
+Así, los dos grupos $S_1$ y $S_2$ tienen la misma suma $S - T = S'/2$, por lo que $(S_1, S_2)$ es una partición válida de $A'$.
+
+Entonces, toda solución del Subset Sum se convierte en una solución válida de Partition.
+
+\paragraph{Vuelta $\,\Leftarrow$}\mbox{}\\
+
+Si Partition tiene solución, entonces Subset Sum tiene solución.
+
+Si hay solución de Partition significa que se pueden dividir los elementos de $A'$ en dos grupos que suman ambos $S - T = S'/2$.
+
+En esa partición, el número agregado $b$ debe encontrarse en exactamente uno de los dos grupos (porque sólo aparece una vez).
+Sin pérdida de generalidad, supongamos que $b \in S_2$.
+
+Entonces:
+\[
+\sum_{x \in S_2} x = (S - T),
+\]
+y esta suma puede escribirse como:
+\[
+\sum_{x \in S_2} x = b + \sum_{a_i \in S_2 \cap A} a_i
+= (S - 2T) + \sum_{a_i \in S_2 \cap A} a_i.
+\]
+
+Igualando ambas expresiones:
+\[
+(S - 2T) + \sum_{a_i \in S_2 \cap A} a_i = S - T
+\;\Longrightarrow\;
+\sum_{a_i \in S_2 \cap A} a_i = T.
+\]
+
+Es decir, el conjunto
+\[
+U = S_2 \cap A
+\]
+es un subconjunto formado únicamente por elementos de $A$ que suman exactamente $T$.
+
+Y eso es precisamente una solución de la instancia original de Subset Sum.
+
+Por lo tanto, toda solución de Partition nos permite reconstruir una solución de Subset Sum.
+
+
+\paragraph{Conclusión sobre Partition}\mbox{}\\
+
+Hemos construido una reducción polinomial desde Subset Sum a Partition y probado que:
+\[
+(A, T) \text{ tiene solución de Subset Sum}
+\;\Longleftrightarrow\;
+A' \text{ tiene solución de Partition}.
+\]
+
+Como Subset Sum es NP-Completo y Partition pertenece a NP, concluimos que:
+
+\begin{center}
+\textbf{Partition es NP-Completo.}
+\end{center}
+
+\bigskip
 
 \subsection*{Problema de decisión de la Tribu del Agua}
 
@@ -20,33 +267,32 @@ Cada elemento $x_i$ debe pertenecer a exactamente un grupo.
 
 \bigskip
 
-\subsection*{Reducción desde Subset Sum al Problema de la Tribu del Agua}
+\subsection*{Reducción desde Partition al Problema de la Tribu del Agua}
 
-Una instancia de Subset Sum está dada por un conjunto de números positivos
-$A = \{a_1, a_2, \dots, a_n\}$ y una suma objetivo $T$.
-
-El problema de decisión pregunta si existe un subconjunto $A' \subseteq A$
-cuyos elementos sumen exactamente $T$.
+Ahora reducimos Partition al Problema de la Tribu del Agua para probar que éste es NP-Completo.
 
 \subsubsection*{Elección de los parámetros de la nueva instancia}
 
-\begin{itemize}
+Sea una instancia de Partition dada por un conjunto
+\[
+A = \{a_1, a_2, \dots, a_n\},
+\]
+y definamos
+\[
+S = \sum_{i=1}^n a_i.
+\]
 
+Si $S$ es impar, la respuesta de Partition es \emph{no} (no se puede dividir en dos partes de igual suma entera). En ese caso, podemos devolver una instancia fija del Problema de la Tribu del Agua que no tenga solución. Por lo tanto, podemos suponer que $S$ es par.
+
+\begin{itemize}
     \item \textbf{Valores $x_i$:}
-    Tomamos los mismos valores que en Subset Sum:
+    Tomamos los mismos valores que en Partition:
     \[
     x_i = a_i \quad \text{para todo } i.
     \]
 
     \item \textbf{Número de grupos $k$:}
-    Elegimos $k = 2$ porque Subset Sum consiste justamente en separar los elementos en dos subconjuntos: uno que suma $T$ y el otro que suma lo que queda.
-
-    \item \textbf{La suma total $S$:}
-    Definimos
-    \[
-    S = \sum_{i=1}^n a_i.
-    \]
-    Si un subconjunto suma $T$, su complemento suma necesariamente $S - T$.
+    Elegimos $k = 2$ porque Partition pregunta justamente si se pueden separar los elementos en dos subconjuntos de suma igual.
 
     \item \textbf{Construcción del parámetro $B$:}
 
@@ -64,110 +310,186 @@ cuyos elementos sumen exactamente $T$.
     \le B.
     \]
 
-    Si llamamos $x$ a la suma del primer grupo, entonces la del segundo es $S - x$. La expresión depende únicamente de $x$:
+   Si llamamos $x$ a la suma del primer grupo, entonces la del segundo es $S - x$.
+    La expresión total depende únicamente de $x$:
+
     \[
-    x^2 + (S - x)^2.
+    f(x) = x^2 + (S - x)^2.
     \]
 
-    Para garantizar que una partición sea aceptada únicamente cuando uno de los grupos suma exactamente $T$, definimos:
+    Expandimos:
+
     \[
-    B = T^2 + (S - T)^2.
+    f(x) = x^2 + S^2 - 2Sx + x^2 = 2x^2 - 2Sx + S^2.
     \]
 
-    Este valor es el mínimo posible de toda la expresión. Cualquier partición donde la suma de un grupo sea distinta de $T$ produce un valor estrictamente mayor, por lo que no puede satisfacer la desigualdad.
+    Derivamos:
 
+    \[
+    f'(x) = 4x - 2S.
+    \]
+
+    Igualamos a cero para hallar el punto crítico:
+
+    \[
+    4x - 2S = 0
+    \quad\Longrightarrow\quad
+    x = \frac{S}{2}.
+    \]
+
+    La segunda derivada es:
+
+    \[
+    f''(x) = 4 > 0,
+    \]
+
+    así que el punto crítico es un mínimo local y, como $f$ es una función cuadrática con coeficiente principal positivo, es el mínimo global.
+
+    Evaluamos el valor mínimo:
+
+    \[
+    f\!\left(\frac{S}{2}\right)
+    = \left(\frac{S}{2}\right)^2 + \left(S - \frac{S}{2}\right)^2
+    = \frac{S^2}{4} + \frac{S^2}{4}
+    = \frac{S^2}{2}.
+    \]
+
+    Para todo $x$ se cumple
+    \[
+    f(x) \ge f\!\left(\frac{S}{2}\right) = \frac{S^2}{2},
+    \]
+    y la igualdad ocurre sólo cuando $x = \frac{S}{2}$.
+
+    Por lo tanto, definimos:
+    \[
+    B = \frac{S^2}{2}.
+    \]
+
+    Éste es el valor mínimo posible de la expresión. Cualquier partición donde la suma de uno de los grupos sea distinta de $\frac{S}{2}$ produce un valor estrictamente mayor que $B$, por lo que no puede satisfacer la desigualdad.
 \end{itemize}
 
 Con esta construcción, la pregunta del Problema de la Tribu del Agua queda:
 \[
 \text{¿Existe una partición }(S_1, S_2)\text{ tal que }
-(\sum_{x_j \in S_1} x_j)^2 + (\sum_{x_j \in S_2} x_j)^2 \le B?
+\left(\sum_{x_j \in S_1} x_j\right)^2 + \left(\sum_{x_j \in S_2} x_j\right)^2 \le B?
 \]
 
 \subsubsection*{Demostración de la reducción}
 
 Debemos demostrar que:
 \[
-\text{Hay solución de Subset Sum}
+\text{Hay solución de Partition}
 \;\Longleftrightarrow\;
 \text{Hay solución de la Tribu del Agua con $k=2$}.
 \]
 
 \paragraph{Ida $\,\Rightarrow$}\mbox{}\\
-Si hay solución del problema Subset Sum, entonces hay solución del Problema de la Tribu del Agua.
+Si hay solución del problema Partition, entonces hay solución del Problema de la Tribu del Agua.
 
 Si existe un subconjunto $A' \subseteq A$ tal que:
 \[
-\sum_{a_i \in A'} a_i = T,
+\sum_{a_i \in A'} a_i = \sum_{a_i \in A \setminus A'} a_i = \frac{S}{2},
 \]
-
-En nuestra reducción fijamos $k = 2$. Esto implica que cualquier solución del Problema de la Tribu del Agua debe consistir en dividir los elementos en dos grupos. Por lo tanto, podemos usar el subconjunto solución de Subset Sum para formar uno de los grupos, y su complemento para formar el otro:
+tomamos la partición:
 \[
 S_1 = A', \qquad S_2 = A \setminus A'.
 \]
 
 En esta partición, las sumas de los grupos son:
 \[
-\sum_{x_j \in S_1} x_j = T,
+\sum_{x_j \in S_1} x_j = \frac{S}{2},
 \qquad
-\sum_{x_j \in S_2} x_j = S - T,
+\sum_{x_j \in S_2} x_j = \frac{S}{2}.
 \]
-donde $S = \sum_{i=1}^n a_i$.
 
-Dado que el Problema de la Tribu del Agua con $k = 2$ evalúa:
+La expresión del Problema de la Tribu del Agua con $k=2$ es:
 \[
 \left( \sum_{x_j \in S_1} x_j \right)^2
 +
-\left( \sum_{x_j \in S_2} x_j \right)^2,
-\]
-sustituimos las sumas obtenidas:
-\[
-T^2 + (S - T)^2.
-\]
-
-Y en la construcción de la instancia definimos:
-\[
-B = T^2 + (S - T)^2.
+\left( \sum_{x_j \in S_2} x_j \right)^2
+=
+\left(\frac{S}{2}\right)^2 + \left(\frac{S}{2}\right)^2
+= \frac{S^2}{2}
+= B.
 \]
 
-Esto significa que esta partición satisface la desigualdad:
+Por lo tanto, la partición $(S_1, S_2)$ cumple la condición:
 \[
-(\sum S_1)^2 + (\sum S_2)^2 = B.
+\left(\sum_{x_j \in S_1} x_j\right)^2 + \left(\sum_{x_j \in S_2} x_j\right)^2 \le B.
 \]
 
-Por lo tanto, la partición $(S_1, S_2)$ cumple la condición del Problema de la Tribu del Agua:
-\[
-(\sum S_1)^2 + (\sum S_2)^2 \le B.
-\]
-
-Entonces, si existe una solución de Subset Sum, existe una solución para la instancia construida del Problema de la Tribu del Agua con $k=2$.
+Entonces, si existe una solución de Partition, existe una solución para la instancia construida del Problema de la Tribu del Agua con $k=2$.
 
 \paragraph{Vuelta $\,\Leftarrow$}\mbox{}\\
-Si hay solución del Problema de la Tribu del Agua, entonces hay solución de Subset Sum.
+Si hay solución del Problema de la Tribu del Agua, entonces hay solución de Partition.
 
-Si hay solución del Problema de la Tribu del Agua, entonces existe una partición $(S_1, S_2)$ con $k = 2$ tal que:
+Supongamos que hay solución del Problema de la Tribu del Agua para la instancia construida. Es decir, existe una partición $(S_1, S_2)$ con $k = 2$ tal que:
 \[
-(\sum_{x_j \in S_1} x_j)^2 + (\sum_{x_j \in S_2} x_j)^2 \le B,
+\left(\sum_{x_j \in S_1} x_j\right)^2 + \left(\sum_{x_j \in S_2} x_j\right)^2 \le B,
 \]
-recordemos que:
+donde
 \[
-B = T^2 + (S - T)^2.
-\]
-
-Al partir los elementos en dos grupos, si uno suma $x$, el otro suma $S - x$.
-La expresión total depende sólo de $x$:
-\[
-x^2 + (S - x)^2.
+B = \frac{S^2}{2}.
 \]
 
-Elegimos $B$ justamente como el valor de esta expresión cuando $x = T$, que es el valor mínimo posible.
-Si la partición encontrada cumple la desigualdad, entonces necesariamente debe tener:
+Sea
 \[
-\sum_{x_j \in S_1} x_j = T.
+x = \sum_{x_j \in S_1} x_j,
+\qquad
+\sum_{x_j \in S_2} x_j = S - x.
 \]
 
-Es decir, uno de los grupos suma exactamente $T$, lo cual constituye una solución de Subset Sum.
+La expresión total es:
+\[
+f(x) = x^2 + (S - x)^2.
+\]
 
-\paragraph{Conclusión}\mbox{}
+Sabemos que
+\[
+f(x) = 2x^2 - 2Sx + S^2,
+\]
+y que
+\[
+f'(x) = 4x - 2S, \qquad f''(x) = 4 > 0.
+\]
 
-Habiendo demostrado que la instancia de Subset Sum tiene solución si y sólo si la instancia construida del Problema de la Tribu del Agua tiene solución, y dado que la reducción es polinomial, concluimos que el \textbf{Problema de la Tribu del Agua es NP-Completo}.
+Como $f''(x) > 0$, el único punto crítico $x = S/2$ es su mínimo global. Además, ya calculamos que
+\[
+f\!\left(\frac{S}{2}\right) = \frac{S^2}{2} = B.
+\]
+
+Para todo $x \neq S/2$ se verifica
+\[
+f(x) > f\!\left(\frac{S}{2}\right) = B.
+\]
+
+Pero en nuestra instancia de la Tribu del Agua se cumple
+\[
+f(x) \le B.
+\]
+
+La única forma de que una función tome un valor menor o igual a su mínimo global es que esté exactamente en el punto de mínimo. Por lo tanto, necesariamente
+\[
+x = \frac{S}{2}
+\quad\Longrightarrow\quad
+S - x = \frac{S}{2}.
+\]
+
+Es decir:
+\[
+\sum_{x_j \in S_1} x_j = \sum_{x_j \in S_2} x_j = \frac{S}{2}.
+\]
+
+Por definición de $x_i = a_i$, esto significa que $(S_1, S_2)$ define una partición del conjunto $A$ en dos subconjuntos de igual suma, lo cual es una solución del problema Partition.
+
+\paragraph{Conclusión}\mbox{}\\
+
+Habiendo demostrado que:
+
+\begin{itemize}
+    \item Partition es NP-Completo.
+    \item Existe una reducción polinomial desde Partition al Problema de la Tribu del Agua.
+    \item La instancia de Partition tiene solución si y sólo si la instancia construida del Problema de la Tribu del Agua tiene solución.
+\end{itemize}
+
+y dado que el Problema de la Tribu del Agua pertenece a NP, concluimos que el \textbf{Problema de la Tribu del Agua es NP-Completo}.
