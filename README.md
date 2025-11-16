@@ -25,6 +25,8 @@ python3 tests.py
 
 [Ver informe completo (pdf)](informe/informe_tp_3.pdf)
 
-### Mediciones de Tiempos
+### Mediciones
 
-[Jupyter Notebook](mediciones/mediciones.ipynb)
+#### Comparaciones de Tiempos
+
+[Jupyter Notebook](mediciones/comparaciones.ipynb)
