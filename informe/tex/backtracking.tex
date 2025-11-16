@@ -1,6 +1,23 @@
 \section{Backtracking}
 
-\textcolor{red}{TODO: Agregar Intro}
+\textcolor{red}{TODO: Completar Intro}
+
+Podas Implementadas:
+\begin{itemize}
+    \item Poda por Cota Superior:  
+    \verb|if sum_cuad_actual >= mejor_valor: Podar|
+    \item Poda de simetría básica para evitar permutaciones de grupos vacíos. \verb|ya_uso_vacio = False ....|
+\end{itemize}
+
+
+Mejoras:
+\begin{itemize}
+    \item Ordenamiento previo de habilidades en forma descendente;
+    tiende a encontrar mejores soluciones temprano y permitir mayor poda.
+    \item Actualización incremental de \verb|suma_cuad_actual|. Evita recalcular toda la suma en cada nodo.
+\end{itemize}
+
+
 
 \lstinputlisting[language=Python]{../backtracking.py}
 
@@ -9,6 +26,8 @@
 \textcolor{red}{TODO: Agregar contexto}
 
 \subsubsection*{Con o Sin Ordenamiento Previo}
+
+Se muestra el efecto de realizar o no el Ordenamiento previo descendente de las habilidades. 
 
 \begin{figure}[H]
     \centering

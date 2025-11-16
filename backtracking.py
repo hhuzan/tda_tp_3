@@ -1,13 +1,7 @@
 import math
 
 
-def suma_cuadrados(sumas):
-    return sum(s * s for s in sumas)
-
-
-def backtracking(i, habilidades, k, sumas, particion, mejor_valor, mejor_particion):
-
-    sum_cuad_actual = suma_cuadrados(sumas)
+def backtracking(i, habilidades, k, sumas, sum_cuad_actual, particion, mejor_valor, mejor_particion):
 
     if sum_cuad_actual >= mejor_valor:
         return mejor_valor, mejor_particion
@@ -20,20 +14,26 @@ def backtracking(i, habilidades, k, sumas, particion, mejor_valor, mejor_partici
 
     valor, indice = habilidades[i]
 
-    ya_uso_vacio = False  # para evitar permutaciones de los conjuntos
+    ya_uso_vacio = False  # para evitar algunas permutaciones de los conjuntos
     for g in range(k):
         if sumas[g] == 0:
             if ya_uso_vacio:
                 continue
             ya_uso_vacio = True
 
+        suma_anterior = sumas[g]
+
+        incremento = (suma_anterior + valor) ** 2 - (suma_anterior ** 2)
+
         particion[g].append(indice)
         sumas[g] += valor
+        sum_cuad_actual += incremento
 
         mejor_valor, mejor_particion = backtracking(
-            i + 1, habilidades, k, sumas, particion, mejor_valor, mejor_particion)
+            i + 1, habilidades, k, sumas, sum_cuad_actual, particion, mejor_valor, mejor_particion)
 
         sumas[g] -= valor
+        sum_cuad_actual -= incremento
         particion[g].pop()
 
     return mejor_valor, mejor_particion
@@ -47,6 +47,7 @@ def resolver(k, habilidades, ordenar=True):
     mejor_valor, mejor_particion = math.inf, None
 
     sumas = [0] * k
+    sum_cuad_actual = 0
     particion = [[] for _ in range(k)]
 
-    return backtracking(0, tuplas, k, sumas, particion, mejor_valor, mejor_particion)
+    return backtracking(0, tuplas, k, sumas, sum_cuad_actual, particion, mejor_valor, mejor_particion)
