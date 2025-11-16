@@ -1,6 +1,15 @@
 import pulp
 from pulp import PULP_CBC_CMD
 
+def obtener_particiones(n, k, y):
+    particion = [[] for _ in range(k)]
+    for i in range(k):
+        for j in range(n):
+            if y[i][j].value() == 1:
+                particion[i].append(j)
+
+    return particion
+
 
 def prog_lineal(k, habilidades):
     n = len(habilidades)
@@ -30,12 +39,9 @@ def prog_lineal(k, habilidades):
 
     modelo.solve(PULP_CBC_CMD(msg=False))
 
-    particion = [[] for _ in range(k)]
-    for i in range(k):
-        for j in range(n):
-            if y[i][j].value() == 1:
-                particion[i].append(j)
+    particion = obtener_particiones(n, k, y)
+    suma = sum((s[i].value())**2 for i in range(k))
 
     valor_objetivo = (zmax.value() - zmin.value())
 
-    return valor_objetivo, particion
+    return suma, particion, valor_objetivo
