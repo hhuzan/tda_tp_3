@@ -1,10 +1,12 @@
 \section{Programación Lineal}
 
-En esta sección se planteará un modelo de Programación Lineal para la resolucion de este problema. 
+En esta sección se planteará un modelo de Programación Lineal para la resolución de este problema. 
 Primero se presentará la idea original, basada en una función no lineal con variables binarias, 
 y luego se describirá un modelo lineal que aproxima la solución óptima.
 
-Lo que se buscará al resolverlo con programación lineal en este informe es que, al recibir una secuencia de $n$ maestros y un número $k$, se devuelva la menor diferencia posible entre el grupo de mayor suma y el de menor suma, además de los grupos asignados.
+Lo que se buscará al resolverlo con programación lineal en este informe es que, al recibir una secuencia
+de $n$ maestros y un número $k$, se devuelva la menor diferencia posible entre el grupo de mayor suma y el
+de menor suma, además de los grupos asignados.
 
 La idea central consiste en introducir una variable binaria $y_{ij}$ que indique si el maestro $j$ pertenece al grupo $i$:
 
@@ -29,7 +31,7 @@ Dado que esta expresión no es lineal, se optará por formular un modelo lineal 
 \begin{itemize}
     \item $y_{ij} \in \{0,1\}$: indica si el maestro $j$ pertenece al grupo $i$.
     \item $s_i \in \mathbb{R}$: suma total de fuerzas asignadas al grupo $i$.
-    \item $Z_{\max}, Z_{\min} \in \mathbb{R}$: valores máximo y mínimo, respectivamente, entre todas las sumas $s_i$.
+    \item $Z_{\max}, Z_{\min} \in \mathbb{R}$: valor máximo y mínimo, respectivamente, entre todas las sumas $s_i$.
 \end{itemize}
 
 \subsection{Restricciones}
@@ -38,7 +40,8 @@ Las restricciones del modelo aseguran la correcta asignación de maestros a grup
 
 \begin{itemize}
     \item \textbf{Asignación de maestros:}  
-    Lo principal será limitar a cuántos grupos $i$ puede pertenecer cada maestro $j$. En este caso se busca que cada maestro esté asignado a un solo grupo, por lo tanto tendremos una restricción tal que:
+    Lo principal será limitar a cuántos grupos $i$ puede pertenecer cada maestro $j$. En este caso se busca que cada maestro
+    esté asignado a un solo grupo, por lo tanto, tendremos una restricción tal que:
 
     \[
     \sum_{i=1}^{k} y_{ij} = 1 \quad \forall j.
@@ -83,6 +86,32 @@ Este criterio es razonable porque minimizar la diferencia entre los grupos tiend
 lo cual aproxima el objetivo original basado en la minimización de los cuadrados.
 
 
-\subsection{Implementacion en PuLP}
+\subsection{Implementación en PuLP}
 
-\lstinputlisting[language=Python]{../lineal_pakku.py}
+\lstinputlisting[language=Python]{../prog_lineal.py}
+
+
+
+
+\subsection{Mediciones}
+
+\textcolor{red}{TODO: Agregar contexto}
+
+\subsubsection*{Tiempos de Ejecución}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.8\textwidth]{img/comparacion_tiempos_pl_vs_bt.png}
+\end{figure}
+
+\textcolor{red}{TODO: Agregar Interpretación}
+
+
+\subsubsection*{Ratio de la Aproximación}
+
+\textcolor{red}{TODO: Agregar contexto}  
+
+\textcolor{red}{TODO: Agregar Gráfico}
+
+\textcolor{red}{TODO: Agregar Interpretación}
+
