@@ -1,31 +1,96 @@
 \section{Greedy - Algoritmo de Pakku}
 
-\textcolor{red}{TODO: Agregar Intro}
-
 Se implementó el algoritmo propuesto por el maestro Pakku.  
+
 Para determinar el "grupo con menos habilidad hasta ahora", se consideró
 la suma de habilidades del grupo, por corresponder el mínimo de esta
-suma al mínimo del cuadrado de la suma.
+suma al mínimo del cuadrado de la suma.  
+
+
+\subsection{Código Python}  
 
 \lstinputlisting[language=Python]{../greedy_pakku.py}
+
+\subsection{Análisis de Complejidad}
+
+\subsubsection*{Complejidad Temporal}
+
+
+El algoritmo ordena la lista de habilidades de tamaño $n$,
+con costo $\mathcal{O}(n \log n)$.  
+
+Luego, para cada uno de los $n$ elementos,
+selecciona el grupo con menor suma actual mediante una
+búsqueda lineal entre los $k$ grupos, lo que cuesta $\mathcal{O}(k)$
+por iteración.  
+
+El costo total de esta fase es $\mathcal{O}(nk)$.  
+
+Por lo tanto, la complejidad temporal total es
+\[
+T(n,k) = \mathcal{O}(n \log n + nk).
+\]
+
+\subsubsection*{Complejidad Espacial}
+
+El algoritmo usa las siguientes estructuras:
+
+\[
+\text{(i) la lista ordenada: } \mathcal{O}(n), \qquad
+\text{(ii) el arreglo de sumas: } \mathcal{O}(k), \qquad
+\text{(iii) las particiones: } \mathcal{O}(n).
+\]
+
+En consecuencia, el uso total de memoria es
+\[
+S(n,k) = \mathcal{O}(n + k).
+\]
+
+
+
+
+
+
+
+
+\subsection{Calidad de la Aproximación}
+
+\textcolor{red}{TBD}
+
+
+
+
+
+
 
 
 
 
 \subsection{Mediciones}
 
-\textcolor{red}{TODO: Agregar Contexto}
-
 \subsubsection*{Tiempos de Ejecución - Datasets Grandes}
+Para contrastar la estimación teórica de la complejidad temporal con observaciones
+experimentales, se generaron diversos conjuntos de datos aleatorios de tamaños variables.
+En total se realizaron mediciones para $17*3=51$ conjuntos distintos de habilidades, cada
+uno con entre 200 y 1000 elementos.:
 
-\textcolor{red}{TODO: Agregar Contexto}
+\begin{itemize}
+  \item Se generó un conjunto de datos con sets de tamaño variable con entre 200 y 1000 elementos (habilidades).
+  \item Cada habilidad con un valor comprendido entre 10 y 1000.
+  \item Se definieron 50 grupos ($k=50$) 
+  \item Para cada set de ese conjunto de datos, se midió el tiempo de procesamiento.
+\end{itemize}
+
+Finalmente, se graficaron los tiempos medidos junto con la curva de ajuste correspondiente a la complejidad
+teórica estimada.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=.8\textwidth]{img/ajuste_greedy_pakku_muchos.png}
 \end{figure}
 
-\textcolor{red}{TODO: Agregar Interpretación}
+Se observa que, si bien hay elevada dispersion en los resultados, los valores medidos se ajustan bien
+al estimado teórico $n.log(n)$.
 
 
 
@@ -45,7 +110,11 @@ suma al mínimo del cuadrado de la suma.
     \includegraphics[width=.8\textwidth]{img/comparacion_tiempos_pakku_vs_bt.png}
 \end{figure}
 
-\textcolor{red}{TODO: Agregar Interpretación}
+Nota: si bien los tiempos para el algoritmo Greedy parecen constantes, eso es debido
+al pequeño intervalo considerado y a la gran diferencia de escala con los tiempos de
+Backtraking. Como se vio en gráfico anterior, siguen un orden $n.log(n)$
+
+\textcolor{red}{TODO: Ampliar}
 
 
 
@@ -56,12 +125,12 @@ suma al mínimo del cuadrado de la suma.
 
 \textcolor{red}{TODO: Agregar contexto}  
 
-\textcolor{red}{TODO: EL GRÁFICO ES MUY REDUNDANTE (además de feo)}
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=.8\textwidth]{img/pakku_vs_bt.png}
 \end{figure}
+
+\textcolor{red}{TODO: EL GRÁFICO ES MUY REDUNDANTE (además de feo)}
 
 \textcolor{red}{TODO: Agregar Interpretación}
 
