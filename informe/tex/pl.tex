@@ -104,7 +104,9 @@ lo cual aproxima el objetivo original basado en la minimización de los cuadrado
     \includegraphics[width=.8\textwidth]{img/comparacion_tiempos_pl_vs_bt.png}
 \end{figure}
 
-\textcolor{red}{TODO: Agregar Interpretación}
+Se puede observar que dado un determinado momento, el tiempo de ejecucion del algoritmo por Programacion Lineal cae abruptamente con respecto al de Backtracking.
+Esto probablemente se deba a los algoritmos que utiliza el solver implementado en la libreria de PuLP, Simplex y Branch and Bounds. El metodo Simplex es extremadamente rapido para obtener cotas globales y al combinarlo con Branch and Bounds se acaban podando enormes porciones del espacio de busqueda.
+Backtracking en cambio no obtiene cotas globales, solo detecta conflictos locales, lo que explicaria por que en ciertos casos se nota un menor tiempo de ejecucion para Programacion Lineal a partir de cierto punto.
 
 
 \subsubsection*{Ratio de la Aproximación}
