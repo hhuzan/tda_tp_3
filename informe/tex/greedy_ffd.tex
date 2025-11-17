@@ -57,7 +57,7 @@ Debido a la naturaleza NP-completa del problema, el algoritmo exacto crece expon
 
 Nota: si bien los tiempos para el algoritmo Greedy parecen constantes, eso es debido
 al pequeño intervalo considerado y a la gran diferencia de escala con los tiempos de
-Backtraking. Como se vio en gráfico anterior, la solución Greedy tiene un orden $n.log(n)$
+Backtraking. Como se vio anterioriormente, la solución Greedy tiene un orden $n.log(n)$
 
 \subsubsection*{Comparación Tiempos - Backtracking vs. Greedy-FFD}
 
@@ -125,13 +125,29 @@ para instancias donde las habilidades no varían demasiado, y sigue siendo una h
 
 \subsubsection*{Ratio de la Aproximación}
 
-\textcolor{red}{TODO: Agregar contexto}
+De manera análoga al análisis realizado para el método Greedy anterior,
+la siguiente figura evalúa la calidad de las soluciones obtenidas por el
+método Greedy-FFD.
+
+Se presentan las mismas métricas:
+ distribución del ratio Greedy/Óptimo,
+ estadísticos de su evolución y diferencia absoluta entre ambas soluciones.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=.8\textwidth]{img/aprox_vs_bt.png}
+    \includegraphics[width=.8\textwidth]{img/ratio_ffd_bt_1.png}
 \end{figure}
 
-\textcolor{red}{TODO: EL GRÁFICO ES MUY REDUNDANTE (además de feo)}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.8\textwidth]{img/ratio_ffd_bt_2.png}
+\end{figure}
 
-\textcolor{red}{TODO: Agregar Interpretación}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.8\textwidth]{img/ratio_ffd_bt_3.png}
+\end{figure}
+
+Los gráficos muestran que Greedy-FFD también produce soluciones muy cercanas al
+óptimo: los ratios se mantienen cercanos a /textbf{1} y las diferencias absolutas
+quedan acotadas en todos los tamaños evaluados.
