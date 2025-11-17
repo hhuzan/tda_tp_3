@@ -27,17 +27,17 @@ El código correspondiente es el siguiente:
 El algoritmo realiza dos pasos principales:
 
 \begin{itemize}
-    \item Ordenar las habilidades: $O(n \log n)$.
-    \item Evaluar, para cada uno de los $n$ maestros, el aumento de costo en cada uno de los $k$ grupos: $O(nk)$.
+    \item Ordenar las habilidades: $\mathcal{O}(n \log n)$.
+    \item Evaluar, para cada uno de los $n$ maestros, el aumento de costo en cada uno de los $k$ grupos: $\mathcal{O}(nk)$.
 \end{itemize}
 
 Por lo tanto, la complejidad temporal total es:
 
 \[
-T(n,k) = O(n\log n + nk).
+T(n,k) = \mathcal{O}(n\log n + nk).
 \]
 
-Para valores prácticos en los que $k \ll n$, el término dominante es $O(n \log n)$, mientras que para $k$ grande el término lineal en $k$ domina. La complejidad espacial es $O(n + k)$.
+Para valores prácticos en los que $k \ll n$, el término dominante es $\mathcal{O}(n \log n)$, mientras que para $k$ grande el término lineal en $k$ domina. La complejidad espacial es $\mathcal{O}(n + k)$.
 
 
 
