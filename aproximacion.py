@@ -10,7 +10,7 @@ def greedy_ffd(k, habilidades):
 
         for g in range(k):
             aumento = (sumas[g] + valor)**2 - (sumas[g]**2)
-            if aumento < mejor_aumento:
+            if aumento <= mejor_aumento:
                 mejor_aumento = aumento
                 mejor_g = g
 

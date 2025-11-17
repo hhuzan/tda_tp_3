@@ -130,3 +130,66 @@ Jeong Jeong, 100
         \item Grupo 5: Bumi, Pakku, Jeong Jeong
     \end{itemize}
 \end{itemize}
+
+\subsubsection{Test: Diferencias de orden entre Greedy Pakku y Greedy FFD}
+\textbf{Archivo:} \texttt{test\_10\_17.txt}
+
+\begin{verbatim}
+10
+Yue, 900
+Rafa, 850
+Pakku I, 820
+Siku, 800
+Wei I, 780
+Eska, 780
+Misu, 760
+Sura, 760
+Sangok, 740
+Yue I, 740
+Pakku, 740
+Wei, 700
+Siku I, 700
+Amon, 650
+Tho, 650
+Hama, 600
+Desna, 600
+\end{verbatim}
+
+\textbf{Motivación:} Este test muestra que, si bien los algoritmos Greedy Pakku y Greedy FFD pueden obtener el mismo coeficiente final, la distribución de los grupos puede aparecer en orden distinto.
+
+\textbf{Resultados observados:}
+
+\begin{itemize}
+    \item \emph{Coeficiente Greedy Pakku:} 5430512
+    \item \emph{Coeficiente Greedy FFD:} 5430512
+\end{itemize}
+
+\textbf{Distribución obtenida (Greedy Pakku):}
+\begin{itemize}
+    \item Grupo 1: Yue
+    \item Grupo 2: Rafa
+    \item Grupo 3: Pakku I
+    \item Grupo 4: Siku
+    \item Grupo 5: Wei I, Eska
+    \item Grupo 6: Misu, Sura
+    \item Grupo 7: Sangok, Yue I, Pakku
+    \item Grupo 8: Wei, Siku I
+    \item Grupo 9: Amon, Tho
+    \item Grupo 10: Hama, Desna
+\end{itemize}
+
+\textbf{Distribución obtenida (Greedy FFD):}
+\begin{itemize}
+    \item Grupo 1: Hama, Desna
+    \item Grupo 2: Amon, Tho
+    \item Grupo 3: Wei, Siku I
+    \item Grupo 4: Sangok, Yue I, Pakku
+    \item Grupo 5: Misu, Sura
+    \item Grupo 6: Wei I, Eska
+    \item Grupo 7: Siku
+    \item Grupo 8: Pakku I
+    \item Grupo 9: Rafa
+    \item Grupo 10: Yue
+\end{itemize}
+
+\textbf{Conclusión:} Ambos algoritmos encuentran el mismo coeficiente total, indicando que para este conjunto de datos alcanzan soluciones de igual calidad. No obstante, el orden final de los grupos difiere debido únicamente al criterio de desempate aplicado por cada aproximación. Este ejemplo evidencia que la diferencia entre Greedy Pakku y Greedy FFD puede manifestarse únicamente en la forma en que se enumeran los grupos, aun cuando la solución obtenida sea equivalente en términos de costo.
