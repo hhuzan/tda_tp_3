@@ -1,0 +1,11 @@
+# La primera linea indica la cantidad de grupos a formar, las siguientes son de la forma 'nombre maestro, habilidad'
+4
+Rohan, 300
+Kya, 300
+Bumi II, 300
+Varrick, 300
+Zhu Li, 200
+Zaheer, 200
+Ming-Hua, 200
+Ghazan, 200
+

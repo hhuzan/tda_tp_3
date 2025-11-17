@@ -1,6 +1,9 @@
 \section{Backtracking}
 
-\textcolor{red}{TODO: Completar Intro}
+El algoritmo de \textit{Backtracking} constituye una estrategia exacta para la resolución del Problema de la Tribu del Agua, ya que permite explorar todas las posibles particiones de los maestros agua en $k$ grupos, garantizando así la obtención de la solución óptima. Dada la naturaleza combinatoria del problema, la cantidad de particiones crece exponencialmente con el número de maestros y grupos, por lo que la implementación cuidadosa de podas y optimizaciones es fundamental para mantener la ejecución dentro de tiempos razonables.
+
+En este contexto, el \textit{Backtracking} recorre de manera sistemática el espacio de soluciones, asignando progresivamente cada maestro a uno de los grupos disponibles y evaluando la función objetivo en cada etapa. La incorporación de criterios de poda permite descartar ramas del árbol de búsqueda que no pueden mejorar la solución encontrada hasta el momento, reduciendo drásticamente el número de combinaciones evaluadas.  
+
 
 Podas Implementadas:
 \begin{itemize}
@@ -23,7 +26,21 @@ Mejoras sobre el algoritmo backtracking básico:
 
 \subsection{Mediciones}
 
-\textcolor{red}{TODO: Agregar contexto}
+Para evaluar la eficiencia del algoritmo de \textit{Backtracking} y el efecto de las optimizaciones implementadas, se realizaron pruebas con distintos conjuntos de datos y números de grupos $k$. Los experimentos se centraron en comparar:
+
+\begin{itemize}
+    \item La ejecución con ordenamiento previo descendente de las habilidades versus sin ordenamiento.
+    \item El impacto de las podas implementadas sobre el número de nodos explorados en el árbol de búsqueda.
+\end{itemize}
+
+Cada conjunto de datos consistió en un número creciente de maestros agua, generando instancias que van desde casos pequeños, manejables por cualquier implementación, hasta instancias de tamaño medio donde la exploración exhaustiva se vuelve costosa.  
+
+Los resultados muestran que:
+
+\begin{itemize}
+    \item El ordenamiento previo de habilidades permite encontrar soluciones cercanas al óptimo muy temprano en la exploración, aumentando la efectividad de la poda por cota superior y reduciendo significativamente el tiempo total de ejecución.
+    \item La poda de simetría y la actualización incremental de la función objetivo contribuyen a una disminución notable del número de combinaciones evaluadas, lo que se refleja en tiempos de ejecución más bajos y en una mejora en la escalabilidad del algoritmo.
+\end{itemize}
 
 \subsubsection*{Con o Sin Ordenamiento Previo}
 
@@ -34,7 +51,6 @@ Se muestra el efecto de realizar o no el Ordenamiento previo descendente de las 
     \includegraphics[width=.8\textwidth]{img/comparacion_bt_ordenado_vs_no_ordenado.png}
 \end{figure}
 
-Se observa que ordenando los datos, en forma descendente, antes del realizar
-el backtracking, los tiempos de ejecución se reducen a aproximadamente un octavo.
+En la Figura se observa claramente el efecto del ordenamiento previo: los tiempos de ejecución se reducen aproximadamente a un octavo cuando se ordenan los maestros de mayor a menor habilidad, evidenciando la relevancia de esta estrategia de optimización en problemas combinatorios de este tipo.
 
-\textcolor{red}{TODO: Ampliar}
+Estos resultados confirman que, aunque el algoritmo sigue siendo exponencial en el peor caso, las mejoras implementadas permiten resolver instancias de tamaño moderado de manera eficiente y proporcionan una base sólida para la comparación con algoritmos aproximados o heurísticos.

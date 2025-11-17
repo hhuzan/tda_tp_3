@@ -15,10 +15,16 @@
 python3 tp3.py ruta/a/archivo.txt <K>
 ```
 
-### Ejecución de los Tests:
+### Ejecución de los Tests (Backtracking):
 
 ```bash
-python3 tests.py
+python3 test.py
+```
+
+### Ejecución de los Tests Certificador NP:
+
+```bash
+python3 test_certificador.py
 ```
 
 ### Informe
@@ -29,4 +35,12 @@ python3 tests.py
 
 #### Comparaciones de Tiempos
 
-[Jupyter Notebook](mediciones/comparaciones.ipynb)
+[Jupyter Notebook](mediciones/comparaciones_tiempo.ipynb)
+
+#### Ratios de Resultados
+
+[Jupyter Notebook](mediciones/ratios.ipynb)
+
+#### Ajuste Greedy-Pakku
+
+[Jupyter Notebook](mediciones/ajuste_greedy_pakku.ipynb)

@@ -31,6 +31,12 @@ Por lo tanto, la complejidad temporal total es
 T(n,k) = \mathcal{O}(n \log n + nk).
 \]
 
+Para situaciones las que $k \ll n$, el término dominante
+resulta $n \log n$, mientras que para $k$ grandes predomina el término lineal en $kn$.
+
+
+
+
 \subsubsection*{Complejidad Espacial}
 
 El algoritmo usa las siguientes estructuras:
@@ -217,7 +223,18 @@ al estimado teórico $n.log(n)$.
 
 \subsubsection*{Comparación Tiempos - Backtraking vs. Greedy-Pakku}
 
-\textcolor{red}{TODO: Agregar Intro}
+
+Para observar el rendimiento del algoritmo Greedy-Pakku, se realizaron
+experimentos que comparan su tiempo de ejecución con respecto al algoritmo exacto basado en Backtracking.  
+
+Se evaluaron instancias con distintos valores de maestros $n$ y grupos $k$,
+registrando tanto los tiempos de ejecución.  
+
+Dado que el problema es NP-completo, el algoritmo exacto presenta un crecimiento
+exponencial en función de $n$. Por este motivo en las pruebas se limitó su uso sets de
+datos con $\leq20$.  
+
+Por otro lado, la heurística Greedy mantiene tiempos de ejecución polinomiales.
 
 \begin{figure}[H]
     \centering
@@ -228,7 +245,6 @@ Nota: si bien los tiempos para el algoritmo Greedy parecen constantes, eso es de
 al pequeño intervalo considerado y a la gran diferencia de escala con los tiempos de
 Backtraking. Como se vio en gráfico anterior, la solución Greedy tiene un orden $n.log(n)$
 
-\textcolor{red}{TODO: Ampliar}
 
 
 
@@ -237,16 +253,52 @@ Backtraking. Como se vio en gráfico anterior, la solución Greedy tiene un orde
 
 \subsubsection*{Ratio de la Aproximación}
 
-\textcolor{red}{TODO: Agregar contexto}
+Para analizar cuán cercana es la solución entregada por Greedy-Pakku respecto del valor
+óptimo obtenido mediante backtracking, se realizaron múltiples experimentos sobre instancias
+de distinto tamaño $n$. 
+
+Las figuras siguientes resumen estos resultados a través de tres métricas complementarias:
+
+\begin{itemize}
+  \item Ratio Greedy/Óptimo: indica cuán lejos está la solución heurística
+  del valor óptimo. Un ratio igual a 1 implica solución perfecta. El primer panel muestra
+  la distribución completa de estos ratios para cada $n$ mediante boxplots.
+  \item Peor, media y mediana del ratio: el segundo panel sintetiza el desempeño del Greedy
+  para cada tamaño de instancia, destacando su comportamiento típico (media y mediana) y su
+  peor caso observado.
+  \item Diferencia absoluta (Greedy - Óptimo): el tercer panel muestra cuánto se desvía
+  en valores absolutos la solución heurística. Se grafican la media, la mediana y el rango completo (mínimo -máximo) para cada $n$n.
+\end{itemize}
+
+En conjunto, estas métricas permiten evaluar tanto la estabilidad del método heurístico como
+su ajuste relativo y absoluto respecto de la solución óptima.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=.8\textwidth]{img/pakku_vs_bt.png}
+    \includegraphics[width=.8\textwidth]{img/ratio_pakku_bt_1.png}
 \end{figure}
 
-\textcolor{red}{TODO: EL GRÁFICO ES MUY REDUNDANTE (además de feo)}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.8\textwidth]{img/ratio_pakku_bt_2.png}
+\end{figure}
 
-\textcolor{red}{TODO: Agregar Interpretación}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.8\textwidth]{img/ratio_pakku_bt_3.png}
+\end{figure}
+
+Los resultados indican que Greedy-Pakku ofrece una adecuada aproximación al óptimo: 
+
+Los ratios Greedy/Óptimo se mantienen cercanos a 1, tanto en su distribución (panel 1)
+como en sus valores medio, mediano y peor caso (panel 2).  
+
+Además, las diferencias absolutas entre ambas soluciones permanecen acotadas en todos
+los tamaños evaluados (panel 3).  
+
+Esto indica que el método heurístico logra soluciones de buena calidad con un costo computacional significativamente menor.
+
+
 
 
 
