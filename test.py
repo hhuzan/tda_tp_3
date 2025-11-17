@@ -1,7 +1,6 @@
 import re
 from lectura_archivo import leer_archivo
 from backtracking import resolver
-
 def leer_resultados_esperados(path):
     resultados = {}
     with open(path, "r", encoding="utf-8") as f:
@@ -42,30 +41,40 @@ def ejecutar_tests(resultados_esperados, carpeta, leer_archivo, resolver):
             k, elementos = leer_archivo(archivo_path)
             nombres, habilidades = zip(*elementos)
 
-
             menor_suma, particion_indices = resolver(k, habilidades)
 
+            # Traducimos los índices a nombres
             particion = []
             for grupo in particion_indices:
                 particion.append([nombres[i] for i in grupo])
+
             esperado_coef = datos["coeficiente"]
+            grupos_esperados = datos["grupos"]
+
             if int(menor_suma) == esperado_coef:
                 print("✅ Óptimo correcto")
+                suma_ok = True
             else:
                 print(f"❌ Óptimo calculado erróneo (Esperado {esperado_coef}, Obtenido {menor_suma})")
+                suma_ok = False
 
             print(f"Menor Suma: {menor_suma}")
 
-            #grupos_esperados = datos["grupos"]
-            #for i, grupo_calculado in enumerate(particion):
-                #grupo_esp = grupos_esperados[i] if i < len(grupos_esperados) else []
-                #if set(grupo_calculado) == set(grupo_esp):
-                    #print(f"✅ Grupo {i+1} correcto: {grupo_calculado}")
-                #else:
-                    #print(f"❌ Grupo {i+1} incorrecto (Esperado {grupo_esp}, Obtenido {grupo_calculado})")
+            # Verificamos grupos
+            for i, grupo_calculado in enumerate(particion):
+                grupo_esp = grupos_esperados[i] if i < len(grupos_esperados) else []
+                if set(grupo_calculado) == set(grupo_esp):
+                    print(f"✅ Grupo {i+1} correcto: {grupo_calculado}")
+                else:
+                    if suma_ok:
+                        print(f"⚠️ Grupo {i+1} diferente pero suma correcta (Esperado {grupo_esp}, Obtenido {grupo_calculado})")
+                    else:
+                        print(f"❌ Grupo {i+1} incorrecto (Esperado {grupo_esp}, Obtenido {grupo_calculado})")
+
         except Exception as e:
-           print(f"Error al procesar {archivo_path}: {e}")
+            print(f"Error al procesar {archivo_path}: {e}")
         print()
+
 
 if __name__ == "__main__":
 
