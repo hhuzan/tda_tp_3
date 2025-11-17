@@ -95,7 +95,8 @@ lo cual aproxima el objetivo original basado en la minimización de los cuadrado
 
 \subsection{Mediciones}
 
-\textcolor{red}{TODO: Agregar contexto}
+Se tomaron mediciones de tiempo usando datos aleatorios para Backtracking y Programación Lineal. Se realizaron diversas repeticiones para obtener un mejor ajuste.
+A continuación se muestra una comparación gráfica de los tiempos de ambos algoritmos:
 
 \subsubsection*{Tiempos de Ejecución}
 
@@ -111,10 +112,7 @@ Backtracking en cambio no obtiene cotas globales, solo detecta conflictos locale
 
 \subsubsection*{Ratio de la Aproximación}
 
-\textcolor{red}{TODO: Agregar contexto}   
-
-\textcolor{red}{TODO: TENER EN CUENTA QUE LOS RATIOS SON 1.algo no sé porque cuando el algo es chico
-el matplotlib pone el 1 separado arriba}  
+Se analizará de qué manera varía la optimalidad de los resultados de este modelo. Para ello, se tomaron mediciones con conjuntos de datos aleatorios. Para simplificar el tiempo de procesamiento, se generaron datos con $n \leq 14$ y $k = 5$.
 
 \begin{figure}[H]
     \centering
@@ -131,5 +129,8 @@ el matplotlib pone el 1 separado arriba}
     \includegraphics[width=.8\textwidth]{img/ratio_pl_bt_3.png}
 \end{figure}
 
-\textcolor{red}{TODO: Agregar Interpretación}
+El peor ratio obtenido fue de 1.001, que para tratarse del peor caso constituye una muy buena aproximación, especialmente si se considera que, en general, la media del ratio es significativamente más baja.
+
+También es importante notar que, luego de $n=10$, la media del algoritmo por
+Programación Lineal vuelve a acercarse al óptimo. Es esperable que, para ciertos valores de $k$ y $n$, el $ratio$ aumente.
 
