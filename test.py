@@ -2,7 +2,6 @@ import re
 from lectura_archivo import leer_archivo
 from backtracking import resolver
 
-
 def leer_resultados_esperados(path):
     resultados = {}
     with open(path, "r", encoding="utf-8") as f:
@@ -16,15 +15,20 @@ def leer_resultados_esperados(path):
             continue
         nombre = nombre_match.group(1).strip()
 
-        coeficiente_match = re.search(r"Coeficiente:\s*(.+)", bloque)
-        if coeficiente_match:
-            coeficiente = [e.strip()
-                           for e in coeficiente_match.group(1).split(",")]
-        else:
-            coeficiente = []
+        # Coeficiente
+        coef_match = re.search(r"Coeficiente:\s*(\d+)", bloque)
+        coef = int(coef_match.group(1)) if coef_match else None
+
+        # Grupos
+        grupos = []
+        grupo_matches = re.findall(r"Grupo \d+:\s*(.+)", bloque)
+        for g in grupo_matches:
+            nombres = [n.strip() for n in g.split(",")]
+            grupos.append(nombres)
 
         resultados[nombre] = {
-            "coeficiente": coeficiente
+            "coeficiente": coef,
+            "grupos": grupos
         }
 
     return resultados
@@ -38,25 +42,39 @@ def ejecutar_tests(resultados_esperados, carpeta, leer_archivo, resolver):
             k, elementos = leer_archivo(archivo_path)
             nombres, habilidades = zip(*elementos)
 
-            menor_suma, particion = resolver(k, habilidades)
-            esperado = datos["coeficiente"][0]
 
-            if int(menor_suma) == int(esperado):
+            menor_suma, particion_indices = resolver(k, habilidades)
+
+            particion = []
+            for grupo in particion_indices:
+                particion.append([nombres[i] for i in grupo])
+            esperado_coef = datos["coeficiente"]
+            if int(menor_suma) == esperado_coef:
                 print("✅ Óptimo correcto")
             else:
-                print(
-                    f"❌ Óptimo calculado erróneo (Esperado {esperado}, Obtenido {menor_suma})")
+                print(f"❌ Óptimo calculado erróneo (Esperado {esperado_coef}, Obtenido {menor_suma})")
 
             print(f"Menor Suma: {menor_suma}")
-        except Exception as e:
-            print(f"Error al procesar {archivo_path}: {e}")
-        print()
 
+            #grupos_esperados = datos["grupos"]
+            #for i, grupo_calculado in enumerate(particion):
+                #grupo_esp = grupos_esperados[i] if i < len(grupos_esperados) else []
+                #if set(grupo_calculado) == set(grupo_esp):
+                    #print(f"✅ Grupo {i+1} correcto: {grupo_calculado}")
+                #else:
+                    #print(f"❌ Grupo {i+1} incorrecto (Esperado {grupo_esp}, Obtenido {grupo_calculado})")
+        except Exception as e:
+           print(f"Error al procesar {archivo_path}: {e}")
+        print()
 
 if __name__ == "__main__":
 
     resultados_esperados_catedra = leer_resultados_esperados(
-        "datos/Resultados Esperados.txt")
-    print(resultados_esperados_catedra)
+       "datos/Resultados Esperados.txt")
+    
+    resultados_esperados_alumnos = leer_resultados_esperados("datos_alumnos/resultados_esperados_alumnos.txt")
+
+    ejecutar_tests(resultados_esperados_alumnos,
+                   "datos_alumnos", leer_archivo, resolver)
     ejecutar_tests(resultados_esperados_catedra,
                    "datos", leer_archivo, resolver)

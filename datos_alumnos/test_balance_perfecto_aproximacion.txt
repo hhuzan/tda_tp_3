@@ -1,0 +1,17 @@
+# La primera linea indica la cantidad de grupos a formar, las siguientes son de la forma 'nombre maestro, habilidad'
+5
+Aang, 100
+Katara, 100
+Sokka, 100
+Toph, 100
+Zuko, 100
+Iroh, 100
+Azula, 100
+Mai, 100
+Ty Lee, 100
+Suki, 100
+Jet, 100
+Haru, 100
+Bumi, 100
+Pakku, 100
+Jeong Jeong, 100

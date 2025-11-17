@@ -1,25 +1,54 @@
 \section{Greedy - FFD}
 
-Se implementó ...........
+En esta sección se presenta una segunda aproximación greedy para el Problema de la Tribu del Agua, distinta de la propuesta por el Maestro Pakku. Mientras que la heurística original asigna cada maestro al grupo cuya suma total de habilidades es mínima, la aproximación aquí analizada considera explícitamente el efecto cuadrático del costo objetivo. En particular, cada elemento es asignado al grupo que produce el \textit{menor aumento posible en el costo total}, definido como
+\[
+(\,S_g + x_i\,)^2 - S_g^2,
+\]
+donde $S_g$ denota la suma actual del grupo $g$ y $x_i$ la habilidad del maestro considerado.
 
-\subsection{Código Python}
+
+\subsection{Descripción del Algoritmo}
+
+Dado un conjunto de habilidades $x_1, \dots, x_n$ y una cantidad $k$ de grupos, el algoritmo procede del siguiente modo:
+
+\begin{enumerate}
+    \item Ordena las habilidades de manera no creciente.  
+    \item Para cada maestro $x_i$ en ese orden, evalúa para cada grupo $g$ cuál sería el aumento del costo total si $x_i$ fuese insertado en dicho grupo.
+    \item El maestro es asignado al grupo que produzca el mínimo incremento del costo.
+    \item Se actualiza la suma del grupo seleccionado y se continúa con el siguiente maestro.
+\end{enumerate}
+
+El código correspondiente es el siguiente:
 
 \lstinputlisting[language=Python]{../aproximacion.py}
 
-\subsection{Análisis de Complejidad}
+\subsection{Complejidad Temporal}
 
-\subsubsection*{Complejidad Temporal}
+El algoritmo realiza dos pasos principales:
 
+\begin{itemize}
+    \item Ordenar las habilidades: $O(n \log n)$.
+    \item Evaluar, para cada uno de los $n$ maestros, el aumento de costo en cada uno de los $k$ grupos: $O(nk)$.
+\end{itemize}
 
-\subsubsection*{Complejidad Espacial}
+Por lo tanto, la complejidad temporal total es:
+
+\[
+T(n,k) = O(n\log n + nk).
+\]
+
+Para valores prácticos en los que $k \ll n$, el término dominante es $O(n \log n)$, mientras que para $k$ grande el término lineal en $k$ domina. La complejidad espacial es $O(n + k)$.
 
 
 
 \subsection{Mediciones}
 
-\subsubsection*{Comparación Tiempos - Backtraking vs. Greedy-Pakku}
+\subsubsection*{Comparación Tiempos - Backtraking vs. Greedy-ffd}
 
-\textcolor{red}{TODO: Agregar Intro}
+Para evaluar el desempeño del algoritmo Greedy-FFD, se realizaron experimentos comparando su tiempo de ejecución y la calidad de la solución frente al algoritmo exacto por Backtracking. 
+Se consideraron instancias con distinto número de maestros $n$ y grupos $k$, registrando tanto los tiempos de cómputo como la función objetivo obtenida.  
+Debido a la naturaleza NP-completa del problema, el algoritmo exacto crece exponencialmente con $n$, mientras que la heurística Greedy mantiene tiempos prácticamente polinomiales.
+
 
 \begin{figure}[H]
     \centering
@@ -30,12 +59,69 @@ Nota: si bien los tiempos para el algoritmo Greedy parecen constantes, eso es de
 al pequeño intervalo considerado y a la gran diferencia de escala con los tiempos de
 Backtraking. Como se vio en gráfico anterior, la solución Greedy tiene un orden $n.log(n)$
 
-\textcolor{red}{TODO: Ampliar}
+\subsubsection*{Comparación Tiempos - Backtracking vs. Greedy-FFD}
 
+La Figura muestra los tiempos de ejecución del algoritmo exacto por Backtracking frente al Greedy-FFD para distintas instancias del problema, aumentando el número de maestros $n$ con $k$ grupos fijos.
 
+Se observan varios aspectos importantes:
 
+\begin{itemize}
+    \item Los tiempos de Backtracking crecen de manera exponencial con $n$, como era de esperar para un algoritmo exacto que recorre todas las particiones posibles. Esto se refleja claramente en el ajuste de la curva (línea discontinua azul) con crecimiento exponencial.
+    \item Los tiempos de Greedy-FFD permanecen prácticamente constantes incluso cuando $n$ aumenta, mostrando el comportamiento polinómico previsto por su complejidad teórica $O(n \log n + nk)$. Esto se evidencia en el ajuste de la curva naranja, que sigue una tendencia logarítmica/lenta en la escala del eje vertical.
+    \item La diferencia de escala entre ambos algoritmos es muy marcada: mientras que Backtracking supera varios segundos para $n \approx 20$, Greedy-FFD se mantiene por debajo de $0.1$ s, haciendo que la heurística sea aplicable a instancias mucho más grandes donde Backtracking es inviable.
+    \item Las barras de mediana y cuartiles muestran que la variabilidad de tiempos de ejecución es baja para Greedy-FFD, mientras que Backtracking presenta mayor dispersión, indicando que ciertas instancias son más costosas de resolver.
+\end{itemize}
 
+\subsection{Calidad de la Aproximación para Greedy FFD}
 
+El algoritmo \textbf{Greedy FFD} consiste en procesar los maestros en orden decreciente de habilidad y asignar cada maestro al grupo que produce el \emph{menor aumento incremental} en la función objetivo
+
+\[
+f(S_1,\dots,S_k) = \sum_{j=1}^{k} L_j^2,
+\]
+
+donde $L_j$ es la suma de habilidades del grupo $j$. Denotamos por $A_{\text{FFD}}(I)$ el valor obtenido por el algoritmo para la instancia $I$ y por $OPT(I)$ el valor óptimo.
+
+\subsubsection*{Cota inferior para el óptimo}
+
+Sea $S = \sum_{i=1}^{n} x_i$ la suma total de habilidades. Para cualquier partición en $k$ grupos se cumple
+
+\[
+\sum_{j=1}^{k} L_j = S.
+\]
+
+Usando que la función $x^2$ es convexa, obtenemos la cota mínima válida para \emph{toda} partición:
+
+\[
+\sum_{j=1}^{k} L_j^2 \;\ge\; k \left(\frac{S}{k}\right)^2
+= \frac{S^2}{k}.
+\]
+
+\subsubsection*{Comportamiento del algoritmo}
+
+Dado que el algoritmo siempre asigna el siguiente maestro al grupo que produce el menor aumento en $L_j^2$, se garantiza que cada maestro se coloca en el grupo que mantiene las sumas lo más equilibradas posible en cada paso. Si $L_{\max} = \max_i x_i$ es la mayor habilidad individual, ningún grupo puede superar la suma
+
+\[
+L_{\max} + \frac{S - L_{\max}}{k},
+\]
+
+ya que el maestro más habilidoso se coloca primero y el resto se distribuye tratando de equilibrar las sumas.
+
+De esta forma, podemos obtener una cota superior para la función objetivo bajo Greedy FFD:
+
+\[
+A_{\text{FFD}}(I) \;\le\; (L_{\max} + S/k)^2 + (k-1) \left(\frac{S}{k}\right)^2.
+\]
+
+\subsubsection*{Interpretación}
+
+Aunque el algoritmo no garantiza optimalidad, minimiza localmente el aumento de la función objetivo en cada paso, produciendo particiones equilibradas. En la práctica, esto significa que
+
+\[
+\frac{A_{\text{FFD}}(I)}{OPT(I)} \approx 1
+\]
+
+para instancias donde las habilidades no varían demasiado, y sigue siendo una heurística efectiva para el problema NP-completo de la Tribu del Agua.
 
 \subsubsection*{Ratio de la Aproximación}
 

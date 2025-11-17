@@ -1,0 +1,15 @@
+Los resultados mostrados aquí son óptimos. Es decir, el resultado de la cantidad de tropas debe coincidir con el mostrado.
+Si llegan a otra secuencia de Maestros que lleven al mismo valor óptimo, también será correcto, por supuesto.
+
+test_uno.txt
+Grupo 1: A, B, L
+Grupo 2: C, G, K
+Grupo 3: H, J, F, I, E, D
+Coeficiente: 706
+
+test_parejas_perfectas.txt
+Grupo 1: Varrick, Ghazan
+Grupo 2: Bumi II, Ming-Hua
+Grupo 3: Kya, Zaheer
+Grupo 4: Rohan, Zhu Li
+Coeficiente: 1000000

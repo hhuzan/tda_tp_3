@@ -1,1 +1,132 @@
 \section{Ejemplo de Ejecuciones}
+En esta sección se presentan los tests realizados tanto para el algoritmo de backtracking como para las aproximaciones greedy. El objetivo es verificar que el cálculo del coeficiente mínimo y la distribución de maestros en grupos sea correcto y analizar cómo se comportan los algoritmos aproximados frente a la solución óptima.
+
+\subsection{Algoritmo de Backtracking}
+
+\subsubsection{Test 1: Distribución general}
+\textbf{Archivo:} \texttt{test\_uno.txt}
+
+\begin{verbatim}
+3
+A, 8
+B, 7
+C, 6
+D, 1
+E, 2
+F, 3
+G, 5
+H, 4
+I, 2
+J, 3
+K, 4
+L, 1
+\end{verbatim}
+
+\textbf{Resultados esperados:}
+\begin{itemize}
+    \item \emph{Coeficiente mínimo:} 706
+    \item \emph{Grupos:}
+    \begin{itemize}
+        \item Grupo 1: A, B, L
+        \item Grupo 2: C, G, K
+        \item Grupo 3: H, J, F, I, E, D
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Test 2: Parejas perfectas}
+\textbf{Archivo:} \texttt{test\_parejas\_perfectas.txt}
+
+\begin{verbatim}
+4
+Rohan, 300
+Kya, 300
+Bumi II, 300
+Varrick, 300
+Zhu Li, 200
+Zaheer, 200
+Ming-Hua, 200
+Ghazan, 200
+\end{verbatim}
+
+\textbf{Motivación:} Comprobar distribución óptima en grupos con habilidades parejas exactas.
+
+\textbf{Resultados esperados:}
+\begin{itemize}
+    \item \emph{Coeficiente mínimo:} 1000000
+    \item \emph{Grupos:}
+    \begin{itemize}
+        \item Grupo 1: Varrick, Ghazan
+        \item Grupo 2: Bumi II, Ming-Hua
+        \item Grupo 3: Kya, Zaheer
+        \item Grupo 4: Rohan, Zhu Li
+    \end{itemize}
+\end{itemize}
+
+\subsection{Algoritmo de Aproximación Greedy}
+
+\subsubsection{Test 1: Escalonado}
+\textbf{Archivo:} \texttt{test\_escalonado.txt}
+
+\begin{verbatim}
+10
+Maestro A1, 1000
+Maestro A2, 1000
+...
+Maestro J10, 100
+\end{verbatim}
+
+\textbf{Motivación:} Distribución con habilidades en bloques decrecientes. Permite analizar cómo el algoritmo greedy maneja grandes diferencias entre grupos y si logra balancear adecuadamente.
+
+\textbf{Resultados esperados:}  
+\begin{itemize}
+    \item \emph{Coeficiente:} 302500000.0
+    \item \emph{Grupos:}
+    \begin{itemize}
+        \item Grupo 1: Maestro A10, Maestro B10, Maestro C10, Maestro D10, Maestro E10, Maestro F10, Maestro G10, Maestro H10, Maestro I10, Maestro J10
+        \item Grupo 2: Maestro A9, Maestro B9, Maestro C9, Maestro D9, Maestro E9, Maestro F9, Maestro G9, Maestro H9, Maestro I9, Maestro J9
+        \item Grupo 3: Maestro A8, Maestro B8, Maestro C8, Maestro D8, Maestro E8, Maestro F8, Maestro G8, Maestro H8, Maestro I8, Maestro J8
+        \item Grupo 4: Maestro A7, Maestro B7, Maestro C7, Maestro D7, Maestro E7, Maestro F7, Maestro G7, Maestro H7, Maestro I7, Maestro J7
+        \item Grupo 5: Maestro A6, Maestro B6, Maestro C6, Maestro D6, Maestro E6, Maestro F6, Maestro G6, Maestro H6, Maestro I6, Maestro J6
+        \item Grupo 6: Maestro A5, Maestro B5, Maestro C5, Maestro D5, Maestro E5, Maestro F5, Maestro G5, Maestro H5, Maestro I5, Maestro J5
+        \item Grupo 7: Maestro A4, Maestro B4, Maestro C4, Maestro D4, Maestro E4, Maestro F4, Maestro G4, Maestro H4, Maestro I4, Maestro J4
+        \item Grupo 8: Maestro A3, Maestro B3, Maestro C3, Maestro D3, Maestro E3, Maestro F3, Maestro G3, Maestro H3, Maestro I3, Maestro J3
+        \item Grupo 9: Maestro A2, Maestro B2, Maestro C2, Maestro D2, Maestro E2, Maestro F2, Maestro G2, Maestro H2, Maestro I2, Maestro J2
+        \item Grupo 10: Maestro A1, Maestro B1, Maestro C1, Maestro D1, Maestro E1, Maestro F1, Maestro G1, Maestro H1, Maestro I1, Maestro J1
+    \end{itemize}
+\end{itemize}
+\subsubsection{Test 2: Balance perfecto}
+\textbf{Archivo:} \texttt{test\_balance\_perfecto.txt}
+
+\begin{verbatim}
+5
+Aang, 100
+Katara, 100
+Sokka, 100
+Toph, 100
+Zuko, 100
+Iroh, 100
+Azula, 100
+Mai, 100
+Ty Lee, 100
+Suki, 100
+Jet, 100
+Haru, 100
+Bumi, 100
+Pakku, 100
+Jeong Jeong, 100
+\end{verbatim}
+
+\textbf{Motivación:} Todos los maestros tienen la misma habilidad.
+
+\textbf{Resultados esperados:}  
+\begin{itemize}
+    \item \emph{Coeficiente mínimo (Greedy FFD):} 450000
+    \item \emph{Distribución de grupos:}
+    \begin{itemize}
+        \item Grupo 1: Aang, Katara, Sokka
+        \item Grupo 2: Toph, Zuko, Iroh
+        \item Grupo 3: Azula, Mai, Ty Lee
+        \item Grupo 4: Suki, Jet, Haru
+        \item Grupo 5: Bumi, Pakku, Jeong Jeong
+    \end{itemize}
+\end{itemize}
