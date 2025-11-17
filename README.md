@@ -12,7 +12,7 @@
 ### Ejecución del Programa:
 
 ```bash
-python3 tp3.py ruta/a/archivo.txt <K>
+python3 tp3.py ruta/a/archivo.txt
 ```
 
 ### Ejecución de los Tests (Backtracking):
